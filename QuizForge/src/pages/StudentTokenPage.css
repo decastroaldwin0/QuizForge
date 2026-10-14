@@ -1,27 +1,23 @@
 /* =========================================================
    STUDENT TOKEN PAGE
    All styles are scoped to .student-token-page
-   so they won't affect the Teacher Portal.
    ========================================================= */
 
 .student-token-page {
-  /* Student-only variables */
   --bg: #0b0f1a;
   --card-bg: #131a2a;
-  --card-border: #232c40;
+  --card-border: #2c3750; /* lighter for contrast */
   --orange: #ff7a1a;
   --orange-2: #ff9a3d;
   --text: #f4f6fb;
-  --text-dim: #9aa4b8;
+  --text-dim: #b4bdd0; /* lighter for contrast */
   --input-bg: #171f32;
-  --input-border: #2a3448;
+  --input-border: #3a4662; /* lighter for contrast */
 
-  /* Page */
   width: 100%;
   min-height: 100vh;
-
   margin: 0;
-  padding: 40px 20px 60px;
+  padding: 32px 20px 36px;
 
   position: relative;
   overflow-x: hidden;
@@ -32,17 +28,11 @@
 
   background: var(--bg);
   color: var(--text);
-
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
-
   box-sizing: border-box;
 }
-
-/* =========================================================
-   BOX SIZING
-   ========================================================= */
 
 .student-token-page *,
 .student-token-page *::before,
@@ -50,135 +40,109 @@
   box-sizing: border-box;
 }
 
-/* =========================================================
-   AMBIENT BACKGROUND GLOW
-   ========================================================= */
-
+/* ---------- Ambient glow ---------- */
 .student-token-page::before,
 .student-token-page::after {
   content: "";
   position: fixed;
-
   width: 520px;
   height: 520px;
-
   border-radius: 50%;
-
   filter: blur(10px);
   opacity: 0.28;
-
   z-index: 0;
   pointer-events: none;
 }
 
 .student-token-page::before {
   background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
-
   bottom: -260px;
   left: -220px;
 }
 
 .student-token-page::after {
   background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
-
   top: -260px;
   right: -220px;
 }
 
-/* =========================================================
-   BACKGROUND ICONS
-   ========================================================= */
-
+/* ---------- Background icons (blended) ---------- */
 .student-token-page .bg-icon {
   position: absolute;
+  opacity: 0.6;
 
-  opacity: 0.55;
+  mix-blend-mode: screen;
+  filter: brightness(1.4) contrast(1.8);
+
+  -webkit-mask-image: radial-gradient(
+    ellipse closest-side,
+    #000 65%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(ellipse closest-side, #000 65%, transparent 100%);
 
   z-index: 0;
   pointer-events: none;
+  user-select: none;
 }
 
 .student-token-page .bg-icon.lightbulb {
-  top: 190px;
+  top: 200px;
   left: 6%;
-  width: 110px;
+  width: 140px;
 }
-
 .student-token-page .bg-icon.checklist {
-  top: 480px;
+  top: 470px;
   left: 8%;
-  width: 100px;
+  width: 125px;
 }
-
 .student-token-page .bg-icon.books {
-  top: 175px;
+  top: 185px;
   right: 6%;
-  width: 130px;
+  width: 165px;
 }
-
 .student-token-page .bg-icon.paper-plane {
-  top: 460px;
+  top: 450px;
   right: 7%;
-  width: 120px;
+  width: 150px;
 }
 
-/* =========================================================
-   TOP BAR
-   ========================================================= */
-
+/* ---------- Top bar (closer to content width) ---------- */
 .student-token-page .topbar {
   width: 100%;
-  max-width: 1100px;
-
+  max-width: 960px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-
   position: relative;
-
   z-index: 2;
-
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
-
-/* =========================================================
-   BRAND
-   ========================================================= */
 
 .student-token-page .brand {
   display: flex;
   align-items: center;
-
   gap: 12px;
 }
 
 .student-token-page .brand-mark {
-  width: 46px;
-  height: 46px;
-
-  border-radius: 12px;
-
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
   background: linear-gradient(145deg, var(--orange-2), var(--orange));
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-weight: 800;
   font-size: 22px;
-
   color: #12131a;
-
   box-shadow: 0 6px 16px rgba(255, 122, 26, 0.35);
-
   flex-shrink: 0;
 }
 
 .student-token-page .brand-text .name {
-  font-size: 20px;
-
+  font-size: 23px;
   font-weight: 800;
-
   letter-spacing: -0.3px;
 }
 
@@ -187,147 +151,76 @@
 }
 
 .student-token-page .brand-text .tagline {
-  font-size: 12.5px;
-
+  font-size: 14px;
   color: var(--text-dim);
-
   margin-top: 2px;
 }
 
-/* =========================================================
-   PORTAL BADGE
-   ========================================================= */
-
+/* ---------- Portal badge (only cap icon left on the page) ---------- */
 .student-token-page .portal-badge {
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   background: #12182a;
-
   border: 1px solid var(--card-border);
-
   padding: 8px 16px 8px 8px;
-
   border-radius: 999px;
 }
 
 .student-token-page .portal-badge .icon {
   width: 30px;
   height: 30px;
-
   border-radius: 50%;
-
   background: #1c2437;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: var(--orange-2);
 }
 
 .student-token-page .portal-badge span {
   font-size: 12.5px;
-
   font-weight: 700;
-
   letter-spacing: 0.8px;
-
   color: var(--orange-2);
 }
 
-/* =========================================================
-   MASCOT + CARD STAGE
-   ========================================================= */
-
+/* ---------- Stage + mascot ---------- */
 .student-token-page .stage {
   position: relative;
-
   z-index: 2;
-
-  margin-top: 8px;
-
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* =========================================================
-   MASCOT
-   ========================================================= */
-
 .student-token-page .mascot {
-  width: 190px;
-
+  width: 210px;
   margin-bottom: -5px;
-
   z-index: 5;
-
   position: relative;
-
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
 }
 
-/* =========================================================
-   MAIN CARD
-   ========================================================= */
-
+/* ---------- Card ---------- */
 .student-token-page .card {
-  width: min(92vw, 560px);
-
+  width: min(92vw, 640px);
   background: var(--card-bg);
-
   border: 1px solid var(--card-border);
-
   border-radius: 24px;
-
-  padding: 56px 40px 34px;
-
+  padding: 48px 48px 32px;
   text-align: center;
-
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
-
   position: relative;
-
   z-index: 2;
 }
 
-/* =========================================================
-   CAP ICON
-   ========================================================= */
-
-.student-token-page .cap-icon {
-  width: 52px;
-  height: 52px;
-
-  border-radius: 50%;
-
-  background: #1c2437;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin: 0 auto 18px;
-
-  color: var(--orange-2);
-}
-
-/* =========================================================
-   HEADINGS
-   ========================================================= */
-
 .student-token-page h1 {
-  margin: 0 0 10px;
-
-  font-size: 28px;
-
+  margin: 0 0 8px;
+  font-size: 34px;
   font-weight: 800;
-
   letter-spacing: -0.3px;
-
   color: var(--text);
 }
 
@@ -335,56 +228,34 @@
   color: var(--orange);
 }
 
-/* =========================================================
-   SUBTEXT
-   ========================================================= */
-
 .student-token-page .subtext {
   color: var(--text-dim);
-
-  font-size: 14.5px;
-
+  font-size: 16px;
   line-height: 1.5;
-
-  max-width: 340px;
-
+  max-width: 400px;
   margin: 0 auto 28px;
 }
 
-/* =========================================================
-   OTP
-   ========================================================= */
-
+/* ---------- OTP ---------- */
 .student-token-page .otp {
   display: flex;
-
   justify-content: center;
-
-  gap: 10px;
-
+  gap: 12px;
   margin-bottom: 12px;
 }
 
 .student-token-page .otp input {
-  width: 48px;
-  height: 58px;
-
+  width: 58px;
+  height: 70px;
   text-align: center;
-
-  font-size: 20px;
-
+  font-size: 24px;
   font-weight: 700;
-
   color: var(--text);
-
   background: var(--input-bg);
-
   border: 1.5px solid var(--input-border);
-
   border-radius: 12px;
-
   outline: none;
-
+  text-transform: uppercase;
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
@@ -393,61 +264,45 @@
 
 .student-token-page .otp input:focus {
   border-color: var(--orange);
-
   box-shadow: 0 0 0 4px rgba(255, 122, 26, 0.18);
 }
 
+/* placeholder is now a dim dot, not an "X" */
 .student-token-page .otp input::placeholder {
-  color: #454f68;
-
+  color: #4a5675;
   font-weight: 600;
 }
 
-/* =========================================================
-   COUNTER
-   ========================================================= */
+/* filled boxes get an orange border so progress is visible */
+.student-token-page .otp input.filled {
+  border-color: rgba(255, 122, 26, 0.6);
+}
 
 .student-token-page .counter {
-  font-size: 12.5px;
-
+  font-size: 14px;
   color: var(--text-dim);
-
   margin-bottom: 26px;
 }
 
-/* =========================================================
-   BUTTON BASE
-   ========================================================= */
-
+/* ---------- Buttons ---------- */
 .student-token-page .btn {
   width: 100%;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 10px;
-
-  padding: 15px 20px;
-
-  border-radius: 14px;
-
-  font-size: 15.5px;
-
+  padding: 18px 24px;
+  border-radius: 16px;
+  font-size: 17px;
   font-weight: 700;
-
   border: none;
-
   cursor: pointer;
-
   font-family: inherit;
-
   transition:
     transform 0.12s ease,
     filter 0.12s ease,
-    border-color 0.12s ease;
-
+    opacity 0.12s ease,
+    box-shadow 0.12s ease;
   text-decoration: none;
 }
 
@@ -455,97 +310,72 @@
   transform: translateY(1px);
 }
 
-.student-token-page .btn:disabled {
-  cursor: not-allowed;
-
-  opacity: 0.6;
-
-  transform: none;
-}
-
-/* =========================================================
-   PRIMARY BUTTON
-   ========================================================= */
-
+/* Primary: clearly looks disabled until 6/6 */
 .student-token-page .btn-primary {
   background: linear-gradient(135deg, var(--orange-2), var(--orange));
-
   color: #191008;
-
   box-shadow: 0 10px 24px rgba(255, 122, 26, 0.35);
-
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
-.student-token-page .btn-primary:hover {
+.student-token-page .btn-primary:hover:not(:disabled) {
   filter: brightness(1.06);
+}
+
+.student-token-page .btn-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  box-shadow: none;
+  filter: grayscale(0.35);
+  transform: none;
 }
 
 .student-token-page .btn-primary .icn {
   width: 24px;
   height: 24px;
-
   border-radius: 50%;
-
   background: rgba(0, 0, 0, 0.18);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 13px;
 }
 
-/* =========================================================
-   GHOST BUTTON
-   ========================================================= */
-
-.student-token-page .btn-ghost {
+/* Logout: small text link instead of a full-width button */
+.student-token-page .btn-link {
+  width: auto;
+  margin: 0 auto 16px;
+  padding: 8px 14px;
   background: transparent;
-
-  color: var(--text);
-
-  border: 1.5px solid var(--card-border);
-
-  margin-bottom: 26px;
-}
-
-.student-token-page .btn-ghost:hover {
-  border-color: #3a4460;
-
-  background: rgba(255, 255, 255, 0.02);
-}
-
-/* =========================================================
-   HELP TEXT
-   ========================================================= */
-
-.student-token-page .help {
-  font-size: 13px;
-
   color: var(--text-dim);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+}
 
+.student-token-page .btn-link:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Help ---------- */
+.student-token-page .help {
+  font-size: 14px;
+  color: var(--text-dim);
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 6px;
-
   flex-wrap: wrap;
 }
 
 .student-token-page .help svg {
   color: var(--orange-2);
-
   flex-shrink: 0;
 }
 
 .student-token-page .help a {
   color: var(--orange);
-
   text-decoration: none;
-
   font-weight: 600;
 }
 
@@ -553,194 +383,154 @@
   text-decoration: underline;
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
+/* ---------- Footer ---------- */
 .student-token-page footer {
-  margin-top: 34px;
-
-  font-size: 12.5px;
-
+  margin-top: 22px;
+  font-size: 13.5px;
   color: var(--text-dim);
-
   display: flex;
-
   align-items: center;
-
   gap: 6px;
-
   z-index: 2;
 }
 
 .student-token-page footer svg {
   color: var(--orange-2);
 }
-
 .student-token-page footer .dot {
   color: var(--orange);
 }
 
-/* =========================================================
-   TABLET
-   ========================================================= */
+/* ---------- Short screens (laptops) ---------- */
+@media (max-height: 760px) {
+  .student-token-page .mascot {
+    width: 140px;
+  }
+  .student-token-page .card {
+    padding: 34px 40px 22px;
+  }
+  .student-token-page .subtext {
+    margin-bottom: 16px;
+  }
+  .student-token-page .counter {
+    margin-bottom: 14px;
+  }
+  .student-token-page footer {
+    margin-top: 12px;
+  }
+}
 
+/* ---------- Tablet ---------- */
 @media (max-width: 900px) {
   .student-token-page .bg-icon {
     display: none;
   }
-
   .student-token-page .topbar {
     max-width: 100%;
   }
 }
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
+/* ---------- Mobile ---------- */
 @media (max-width: 600px) {
   .student-token-page {
-    padding: 25px 16px 40px;
+    padding: 20px 16px 30px;
   }
-
   .student-token-page .topbar {
     align-items: center;
   }
-
   .student-token-page .brand-text .tagline {
     display: none;
   }
-
   .student-token-page .brand-text .name {
     font-size: 18px;
   }
-
   .student-token-page .brand-mark {
     width: 42px;
     height: 42px;
-
     font-size: 20px;
   }
-
   .student-token-page .portal-badge {
     padding: 6px 10px 6px 6px;
-
     gap: 7px;
   }
-
   .student-token-page .portal-badge .icon {
     width: 27px;
     height: 27px;
   }
-
   .student-token-page .portal-badge span {
     font-size: 11px;
   }
-
   .student-token-page .card {
     width: min(94vw, 560px);
-
-    padding: 46px 20px 26px;
-
+    padding: 30px 20px 22px;
     border-radius: 20px;
   }
-
   .student-token-page .mascot {
-    width: 150px;
-
-    margin-bottom: -5px;
+    width: 120px;
   }
-
   .student-token-page h1 {
     font-size: 25px;
   }
-
   .student-token-page .subtext {
     font-size: 14px;
   }
 }
 
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
-
+/* ---------- Small phones ---------- */
 @media (max-width: 480px) {
   .student-token-page {
-    padding: 20px 12px 30px;
+    padding: 16px 12px 24px;
   }
-
   .student-token-page .brand {
     gap: 8px;
   }
-
   .student-token-page .brand-mark {
     width: 40px;
     height: 40px;
-
     border-radius: 11px;
   }
-
   .student-token-page .brand-text .name {
     font-size: 17px;
   }
-
   .student-token-page .portal-badge span {
     display: none;
   }
-
   .student-token-page .portal-badge {
     padding: 6px;
   }
-
   .student-token-page .card {
-    padding: 46px 16px 24px;
+    padding: 28px 16px 20px;
   }
-
   .student-token-page .otp {
     gap: 7px;
   }
-
   .student-token-page .otp input {
     width: 40px;
     height: 50px;
-
     font-size: 17px;
-
     border-radius: 10px;
   }
-
   .student-token-page .btn {
     padding: 14px 16px;
-
     font-size: 14.5px;
   }
-
   .student-token-page footer {
     text-align: center;
-
     flex-wrap: wrap;
-
     justify-content: center;
   }
 }
 
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
+/* ---------- Very small phones ---------- */
 @media (max-width: 360px) {
   .student-token-page .otp {
     gap: 5px;
   }
-
   .student-token-page .otp input {
     width: 36px;
     height: 47px;
-
     font-size: 16px;
   }
-
   .student-token-page .card {
     padding-left: 12px;
     padding-right: 12px;

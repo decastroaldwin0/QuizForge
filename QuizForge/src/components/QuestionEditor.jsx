@@ -8,35 +8,35 @@ const backendHost = import.meta.env.VITE_BACKEND_HOST;
 
 // shared styling tokens — cosmetic only, referenced by className below
 const inputClass =
-  "w-full bg-[#26211c] rounded-xl px-3 py-2 text-sm text-[#e8ddce] placeholder:text-[#766a59] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-3px_-3px_7px_rgba(255,255,255,0.04)] focus:outline-none focus:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.45),inset_-4px_-4px_8px_rgba(255,255,255,0.04),0_0_0_3px_rgba(255,148,80,0.35)] transition font-body";
-const labelClass = "block text-sm font-medium mb-1.5 text-[#cabaa2] font-body";
+  "w-full bg-[#E8DCC8] rounded-xl px-3 py-2 text-sm text-[#332619] placeholder:text-[#8A7455] shadow-[inset_4px_4px_8px_rgba(151,122,79,0.22)] focus:outline-none focus:shadow-[inset_5px_5px_10px_rgba(151,122,79,0.24),0_0_0_3px_rgba(255,148,80,0.35)] transition font-body";
+const labelClass = "block text-sm font-medium mb-1.5 text-[#5c4a34] font-body";
+// Solid primary button (no gradient)
 const primaryBtnClass =
-  "flex-1 font-display font-bold rounded-xl px-4 py-2.5 text-[#3a2010] transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0.5";
+  "flex-1 font-display font-bold rounded-xl px-4 py-2.5 text-[#3a2010] bg-[#ff9450] hover:bg-[#f58540] transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0.5";
 const primaryBtnStyle = {
-  background: "linear-gradient(155deg, #ffab6b, #ff9450 55%, #e8752a)",
   boxShadow:
-    "inset 2px 2px 4px rgba(255,255,255,0.4), inset -3px -3px 6px rgba(80,30,5,0.4), 5px 5px 12px rgba(0,0,0,0.4)",
+    "inset -3px -3px 6px rgba(80,30,5,0.4), 5px 5px 12px rgba(151,122,79,0.22)",
 };
 const secondaryBtnClass =
-  "flex-1 rounded-xl px-4 py-2.5 transition-all text-[#cabaa2] bg-[#26211c] hover:bg-[#3a3128] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-3px_-3px_7px_rgba(255,255,255,0.04)]";
+  "flex-1 rounded-xl px-4 py-2.5 transition-all text-[#5c4a34] bg-[#E8DCC8] hover:bg-[#E3D3B8] shadow-[inset_4px_4px_8px_rgba(151,122,79,0.22)]";
 
 const scrollStyles = `
   .qe-scroll::-webkit-scrollbar {
     width: 8px;
   }
   .qe-scroll::-webkit-scrollbar-track {
-    background: #26211c;
+    background: #E8DCC8;
   }
   .qe-scroll::-webkit-scrollbar-thumb {
-    background: #4a3f34;
+    background: #C9A876;
     border-radius: 6px;
   }
   .qe-scroll::-webkit-scrollbar-thumb:hover {
-    background: #5c4f42;
+    background: #B08752;
   }
   .qe-scroll {
     scrollbar-width: thin;
-    scrollbar-color: #4a3f34 #26211c;
+    scrollbar-color: #C9A876 #E8DCC8;
   }
 `;
 
@@ -305,7 +305,7 @@ export default function QuestionEditor({
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-[#26211c] font-body p-3">
+    <div className="flex-1 flex flex-col bg-[#E8DCC8] font-body p-3">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Baloo 2', sans-serif; }
@@ -313,16 +313,16 @@ export default function QuestionEditor({
         ${scrollStyles}
       `}</style>
 
-      <div className="flex-1 flex flex-col rounded-2xl bg-[#322b23] overflow-hidden shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)]">
-        <div className="p-3.5 bg-[#3a3128] flex justify-between items-center">
+      <div className="flex-1 flex flex-col rounded-2xl bg-[#F2E8D8] overflow-hidden shadow-[6px_6px_14px_rgba(151,122,79,0.22)]">
+        <div className="p-3.5 bg-[#E3D3B8] flex justify-between items-center">
           <div>
-            <h2 className="text-sm font-display font-semibold text-[#e8ddce]">
+            <h2 className="text-sm font-display font-semibold text-[#332619]">
               Question editor
             </h2>
-            <p className="text-xs text-[#766a59] mt-0.5">
+            <p className="text-xs text-[#8A7455] mt-0.5">
               {quizMetadata
                 ? `Editing questions for: "${quizMetadata.quizTitle}"`
-                : "No quiz selected"}
+                : "No Exam selected"}
             </p>
           </div>
         </div>
@@ -620,12 +620,12 @@ export default function QuestionEditor({
             ) : addMode === "generate" ? (
               <>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-display font-semibold text-[#e8ddce]">
+                  <h2 className="text-xl font-display font-semibold text-[#332619]">
                     Generate questions
                   </h2>
                   <button
                     onClick={() => setAddMode(null)}
-                    className="text-sm text-[#766a59] hover:text-[#e8ddce] transition-colors"
+                    className="text-sm text-[#8A7455] hover:text-[#332619] transition-colors"
                   >
                     ← Back
                   </button>
@@ -706,21 +706,21 @@ export default function QuestionEditor({
                       }
                       className={`${inputClass} text-left flex justify-between items-center`}
                     >
-                      <span className="text-[#cabaa2]">
+                      <span className="text-[#5c4a34]">
                         {generateOptions.sources &&
                         generateOptions.sources.length > 0
                           ? `${generateOptions.sources.length} document(s) selected`
                           : "Select documents..."}
                       </span>
-                      <span className="text-[#766a59]">▼</span>
+                      <span className="text-[#8A7455]">▼</span>
                     </button>
                     {showSourcesDropdown && (
-                      <div className="absolute top-full left-0 right-0 rounded-xl mt-1 z-10 max-h-48 overflow-y-auto qe-scroll bg-[#26211c] shadow-[6px_6px_14px_rgba(0,0,0,0.45),-4px_-4px_10px_rgba(255,255,255,0.03)]">
+                      <div className="absolute top-full left-0 right-0 rounded-xl mt-1 z-10 max-h-48 overflow-y-auto qe-scroll bg-[#E8DCC8] shadow-[6px_6px_14px_rgba(151,122,79,0.24)]">
                         {documents.length > 0 ? (
                           documents.map((doc) => (
                             <label
                               key={doc.id}
-                              className="flex items-center px-3 py-2 hover:bg-[#3a3128] cursor-pointer"
+                              className="flex items-center px-3 py-2 hover:bg-[#E3D3B8] cursor-pointer"
                             >
                               <input
                                 type="checkbox"
@@ -730,13 +730,13 @@ export default function QuestionEditor({
                                 onChange={() => handleToggleSource(doc.id)}
                                 className="mr-2 w-4 h-4 cursor-pointer accent-[#ff9450]"
                               />
-                              <span className="text-[#cabaa2] text-sm">
+                              <span className="text-[#5c4a34] text-sm">
                                 {doc.title}
                               </span>
                             </label>
                           ))
                         ) : (
-                          <div className="px-3 py-2 text-[#766a59] text-sm">
+                          <div className="px-3 py-2 text-[#8A7455] text-sm">
                             No documents available
                           </div>
                         )}
@@ -765,32 +765,32 @@ export default function QuestionEditor({
               <div className="space-y-3 text-sm">
                 <button
                   onClick={() => handleModeSelect("generate")}
-                  className="w-full rounded-2xl p-4 text-left transition-all bg-[#26211c] hover:bg-[#3a3128] shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)]"
+                  className="w-full rounded-2xl p-4 text-left transition-all bg-[#E8DCC8] hover:bg-[#E3D3B8] shadow-[6px_6px_14px_rgba(151,122,79,0.22)]"
                 >
-                  <div className="text-base font-display font-semibold text-[#e8ddce] flex items-center gap-2">
-                    <span className="text-[#ff9450]">✦</span>
+                  <div className="text-base font-display font-semibold text-[#332619] flex items-center gap-2">
+                    <span className="text-[#C9612B]">✦</span>
                     Generate
                   </div>
-                  <div className="mt-1 text-[#a89a86]">
+                  <div className="mt-1 text-[#6b5a42]">
                     Use AI to generate questions for you
                   </div>
                 </button>
 
                 <button
                   onClick={() => handleModeSelect("manual")}
-                  className="w-full rounded-2xl p-4 text-left transition-all bg-[#26211c] hover:bg-[#3a3128] shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)]"
+                  className="w-full rounded-2xl p-4 text-left transition-all bg-[#E8DCC8] hover:bg-[#E3D3B8] shadow-[6px_6px_14px_rgba(151,122,79,0.22)]"
                 >
-                  <div className="text-base font-display font-semibold text-[#e8ddce]">
+                  <div className="text-base font-display font-semibold text-[#332619]">
                     Make your own
                   </div>
-                  <div className="mt-1 text-[#a89a86]">
+                  <div className="mt-1 text-[#6b5a42]">
                     Manually create a custom question
                   </div>
                 </button>
               </div>
             )
           ) : (
-            <div className="text-[#5f5346] text-sm">
+            <div className="text-[#a3936f] text-sm">
               Select a file from the sidebar to start creating questions
             </div>
           )}

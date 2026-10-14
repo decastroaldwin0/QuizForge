@@ -114,76 +114,15 @@ export default function LogInComponent() {
   return (
     <main className="page-container leaning-mode" id="pageContainer">
       {/* =====================================================
-          DECORATIVE ELEMENTS
-          These are hidden automatically in leaning mode.
-         ===================================================== */}
-
-      <div className="floating-decor decor-lightbulb" aria-hidden="true">
-        <img src="/assets/lightbulb.png" alt="" />
-      </div>
-
-      <div className="floating-decor decor-checklist" aria-hidden="true">
-        <img src="/assets/checklist.png" alt="" />
-      </div>
-
-      <div className="floating-decor decor-books" aria-hidden="true">
-        <img src="/assets/books.png" alt="" />
-      </div>
-
-      <div className="floating-decor decor-paper-plane" aria-hidden="true">
-        <img src="/assets/paper_plane.png" alt="" />
-      </div>
-
-      {/* =====================================================
-          BRAND TAGLINE
-          Hidden in leaning mode because it is already
-          part of the background composition.
-         ===================================================== */}
-
-      <div className="brand-tagline">
-        <h1>
-          Smarter
-          <br />
-          Quizzes.
-          <br />
-          <span className="accent-text">Better Learning.</span>
-        </h1>
-
-        <div className="accent-bar" />
-      </div>
-
-      {/* =====================================================
           MAIN STAGE
+          The mascot, clipboard, books, lightbulb, etc. are all
+          part of the login-design.png background, so only the
+          form is rendered here.
          ===================================================== */}
 
       <div className="stage-wrapper">
-        {/* Used only for standing mode */}
-        <div className="avatar-backdrop" />
-
-        {/* Used only for standing mode */}
-        <div className="avatar-container">
-          <img
-            src="/assets/avatar_peeking.png"
-            alt="QuizForge Mascot"
-            className="avatar-img"
-          />
-        </div>
-
-        {/* =================================================
-            CLIPBOARD CARD
-            In leaning mode the clipboard itself comes from
-            leaning_stage_bg_clean.png.
-           ================================================= */}
-
         <div className="clipboard-card" id="clipboardCard">
           <div className="clipboard-board">
-            {/* Normal/standing mode clip */}
-            <div className="clipboard-clip">
-              <div className="clip-loop" />
-
-              <div className="clip-bar" />
-            </div>
-
             {/* =============================================
                 PAPER / FORM AREA
                ============================================= */}
@@ -196,12 +135,12 @@ export default function LogInComponent() {
               <header className="card-header">
                 <div className="brand-logo">
                   <div className="logo-icon-box">
-                    <span className="q-letter">Q</span>
+                    <span className="q-letter">E</span>
                   </div>
 
                   <div className="brand-text">
                     <h2 className="brand-name">
-                      Quiz<span className="highlight">Forge</span>
+                      Exam<span className="highlight">Gen</span>
                     </h2>
 
                     <p className="brand-subtext">Learn • Practice • Achieve</p>
@@ -238,8 +177,8 @@ export default function LogInComponent() {
 
                 <p className="welcome-subtitle">
                   {isLogin
-                    ? "Log in to access your quizzes and continue learning."
-                    : "Sign up to start creating or taking quizzes."}
+                    ? "Log in to access your Exam and continue learning."
+                    : "Sign up to start creating or taking Exams."}
                 </p>
               </section>
 
@@ -347,8 +286,8 @@ export default function LogInComponent() {
                         name="email"
                         className="custom-input"
                         value={email}
+                        placeholder="youredu@email.com"
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@school.edu"
                         required
                         autoComplete="email"
                       />
@@ -472,10 +411,6 @@ export default function LogInComponent() {
                   )}
                 </button>
               </form>
-
-              {/* =========================================
-                  DIVIDER
-                 ========================================= */}
 
               {/* =========================================
                   FOOTER

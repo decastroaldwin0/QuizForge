@@ -19,7 +19,7 @@ export default function StudentInfoModal({ student, studentClasses, onClose }) {
   }, []); // eslint-disable-line
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 px-4 py-6">
+    <div className="fixed inset-0 bg-[#332619]/60 flex items-center justify-center z-50 px-4 py-6">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Baloo 2', sans-serif; }
@@ -27,10 +27,10 @@ export default function StudentInfoModal({ student, studentClasses, onClose }) {
       `}</style>
       <div
         ref={studentCardRef}
-        className="bg-[#322b23] rounded-3xl max-w-xl w-full overflow-hidden shadow-[14px_14px_28px_rgba(0,0,0,0.5),-8px_-8px_20px_rgba(255,255,255,0.04)] font-body"
+        className="bg-[#E8DCC8] rounded-3xl max-w-xl w-full overflow-hidden shadow-[14px_14px_28px_rgba(0,0,0,0.25)] font-body"
       >
-        <div className="flex items-center justify-between px-6 py-5 bg-[#3a3128]">
-          <h2 className="text-lg font-display font-semibold text-[#e8ddce]">
+        <div className="flex items-center justify-between px-6 py-5 bg-[#E3D3B8]">
+          <h2 className="text-lg font-display font-semibold text-[#332619]">
             Student info
           </h2>
         </div>
@@ -41,24 +41,23 @@ export default function StudentInfoModal({ student, studentClasses, onClose }) {
               className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-display font-bold flex-shrink-0 text-[#ffb27a]"
               style={{
                 background: "#3a2a1c",
-                boxShadow:
-                  "inset 2px 2px 4px rgba(255,255,255,0.08), inset -3px -3px 6px rgba(0,0,0,0.35)",
+                boxShadow: "inset -3px -3px 6px rgba(0,0,0,0.35)",
               }}
             >
               {getInitials(student.name)}
             </div>
             <div className="min-w-0">
-              <div className="text-lg font-display font-semibold text-[#e8ddce] truncate">
+              <div className="text-lg font-display font-semibold text-[#332619] truncate">
                 {student.name}
               </div>
-              <div className="text-sm text-[#766a59] truncate">
+              <div className="text-sm text-[#8A7455] truncate">
                 {student.email}
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl bg-[#26211c] p-4 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-3px_-3px_7px_rgba(255,255,255,0.04)]">
-            <div className="text-xs uppercase tracking-[0.2em] text-[#766a59]">
+          <div className="rounded-2xl bg-[#F2E8D8] p-4 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.10)]">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#8A7455]">
               Classes
             </div>
             <div className="mt-3 space-y-2">
@@ -66,22 +65,22 @@ export default function StudentInfoModal({ student, studentClasses, onClose }) {
                 studentClasses.map((classItem) => (
                   <div
                     key={classItem.id}
-                    className="rounded-xl bg-[#322b23] px-3 py-2 text-sm text-[#cabaa2] shadow-[6px_6px_14px_rgba(0,0,0,0.3),-4px_-4px_10px_rgba(255,255,255,0.02)]"
+                    className="rounded-xl bg-[#E8DCC8] px-3 py-2 text-sm text-[#5c4a34] shadow-[6px_6px_14px_rgba(0,0,0,0.10)]"
                   >
                     {classItem.name}
                   </div>
                 ))
               ) : (
-                <div className="text-sm text-[#6b5f52]">No classes found</div>
+                <div className="text-sm text-[#8A7455]">No classes found</div>
               )}
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 px-6 py-4 bg-[#3a3128]">
+        <div className="flex justify-end gap-3 px-6 py-4 bg-[#E3D3B8]">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-full text-sm font-medium text-[#cabaa2] hover:text-[#e8ddce] transition-all bg-[#26211c] hover:bg-[#3a3128]/60 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.03)]"
+            className="px-4 py-2 rounded-full text-sm font-medium text-[#5c4a34] hover:text-[#C9612B] transition-all bg-[#F2E8D8] hover:bg-[#E8DCC8] shadow-[inset_3px_3px_6px_rgba(0,0,0,0.10)]"
           >
             Close
           </button>

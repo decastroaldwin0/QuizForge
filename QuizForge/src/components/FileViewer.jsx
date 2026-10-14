@@ -10,18 +10,18 @@ const scrollStyles = `
     width: 8px;
   }
   .file-viewer-scroll::-webkit-scrollbar-track {
-    background: #26211c;
+    background: transparent;
   }
   .file-viewer-scroll::-webkit-scrollbar-thumb {
-    background: #4a3f34;
+    background: #E2692A;
     border-radius: 6px;
   }
   .file-viewer-scroll::-webkit-scrollbar-thumb:hover {
-    background: #5c4f42;
+    background: #A84C1F;
   }
   .file-viewer-scroll {
     scrollbar-width: thin;
-    scrollbar-color: #4a3f34 #26211c;
+    scrollbar-color: #E2692A transparent;
     -webkit-overflow-scrolling: touch;
   }
 `;
@@ -29,9 +29,9 @@ const scrollStyles = `
 // EMPTY STATE ICON -------------------------------------------------------------
 function NoFileIcon() {
   return (
-    <div className="w-16 h-20 mx-auto mb-3 rounded-2xl bg-white shadow-[inset_3px_3px_6px_rgba(0,0,0,0.1),inset_-3px_-3px_6px_rgba(255,255,255,0.6),6px_6px_14px_rgba(0,0,0,0.35)] relative">
-      <span className="absolute left-4 top-5 w-8 h-1 rounded bg-[#26211c]/25" />
-      <span className="absolute left-4 top-8 w-6 h-1 rounded bg-[#26211c]/25" />
+    <div className="w-16 h-20 mx-auto mb-3 rounded-2xl bg-white border border-[#D0BB98] shadow-[inset_3px_3px_6px_rgba(151,122,79,0.1),6px_6px_14px_rgba(151,122,79,0.18)] relative">
+      <span className="absolute left-4 top-5 w-8 h-1 rounded bg-[#332619]/25" />
+      <span className="absolute left-4 top-8 w-6 h-1 rounded bg-[#332619]/25" />
     </div>
   );
 }
@@ -64,19 +64,19 @@ export default function FileViewer({ selectedFile }) {
 
   if (isFetching) {
     return (
-      <div className="w-full lg:w-1/2 flex flex-col min-h-0 bg-[#26211c] font-body p-3">
+      <div className="w-full lg:w-1/2 flex flex-col min-h-0 bg-[#E8DCC8] font-body p-3">
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
           .font-display { font-family: 'Baloo 2', sans-serif; }
           .font-body { font-family: 'Inter', sans-serif; }
           ${scrollStyles}
         `}</style>
-        <div className="flex-1 flex flex-col min-h-0 rounded-2xl bg-[#322b23] overflow-hidden shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)]">
-          <div className="p-3.5 bg-[#3a3128]">
-            <h2 className="text-sm font-display font-semibold text-[#e8ddce]">
+        <div className="flex-1 flex flex-col min-h-0 rounded-2xl bg-[#F2E8D8] overflow-hidden shadow-[6px_6px_14px_rgba(151,122,79,0.22)]">
+          <div className="p-3.5 bg-[#E3D3B8]">
+            <h2 className="text-sm font-display font-semibold text-[#332619]">
               {selectedFile ? selectedFile.name : "File viewer"}
             </h2>
-            <p className="text-xs text-[#766a59] mt-0.5">PDF or text viewer</p>
+            <p className="text-xs text-[#8A7455] mt-0.5">PDF or text viewer</p>
           </div>
           <div className="flex-1 min-h-0 overflow-y-auto p-4 file-viewer-scroll">
             <LoadingScreen />
@@ -87,30 +87,30 @@ export default function FileViewer({ selectedFile }) {
   }
 
   return (
-    <div className="w-full lg:w-1/2 flex flex-col min-h-0 bg-[#26211c] font-body p-3">
+    <div className="w-full lg:w-1/2 flex flex-col min-h-0 bg-[#E8DCC8] font-body p-3">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Baloo 2', sans-serif; }
         .font-body { font-family: 'Inter', sans-serif; }
         ${scrollStyles}
       `}</style>
-      <div className="flex-1 flex flex-col min-h-0 rounded-2xl bg-[#322b23] overflow-hidden shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)]">
-        <div className="p-3.5 bg-[#3a3128]">
-          <h2 className="text-sm font-display font-semibold text-[#e8ddce]">
+      <div className="flex-1 flex flex-col min-h-0 rounded-2xl bg-[#F2E8D8] overflow-hidden shadow-[6px_6px_14px_rgba(151,122,79,0.22)]">
+        <div className="p-3.5 bg-[#E3D3B8]">
+          <h2 className="text-sm font-display font-semibold text-[#332619]">
             {selectedFile ? selectedFile.name : "File viewer"}
           </h2>
-          <p className="text-xs text-[#766a59] mt-0.5">PDF or text viewer</p>
+          <p className="text-xs text-[#8A7455] mt-0.5">PDF or text viewer</p>
         </div>
         <div className="flex-1 min-h-0 overflow-y-auto p-4 file-viewer-scroll">
           {data?.content ? (
-            <div className="font-body text-white text-sm sm:text-[15px] whitespace-pre-wrap leading-[1.8] break-words">
+            <div className="font-body text-[#332619] text-sm sm:text-[15px] whitespace-pre-wrap leading-[1.8] break-words">
               {data.content}
             </div>
           ) : (
             <div className="h-full flex items-center justify-center">
               <div className="text-center">
                 <NoFileIcon />
-                <p className="text-[#6b5f52] text-sm font-mono">
+                <p className="text-[#8A7455] text-sm font-mono">
                   No file selected
                 </p>
               </div>

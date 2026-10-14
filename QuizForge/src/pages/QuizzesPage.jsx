@@ -238,7 +238,7 @@ export default function QuizzesPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-[#26211c] text-[#e8ddce]">
+    <div className="h-screen flex flex-col bg-[#E8DCC8] text-[#332619]">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Baloo 2', sans-serif; }
@@ -250,9 +250,9 @@ export default function QuizzesPage() {
 
       {/* Mobile/tablet panel switcher — only relevant once a quiz is selected, hidden on desktop */}
       {selectedQuizId && (
-        <div className="flex lg:hidden mx-3 mt-3 rounded-2xl bg-[#322b23] shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)] font-body overflow-hidden">
+        <div className="flex lg:hidden mx-3 mt-3 rounded-2xl bg-[#F2E8D8] shadow-[6px_6px_14px_rgba(0,0,0,0.10)] font-body overflow-hidden">
           {[
-            { key: "list", label: "Quizzes" },
+            { key: "list", label: "Exams" },
             { key: "details", label: "Details" },
             { key: "questions", label: "Questions" },
           ].map((tab) => (
@@ -261,25 +261,27 @@ export default function QuizzesPage() {
               onClick={() => setMobileTab(tab.key)}
               className={`flex-1 py-2.5 text-sm font-medium transition-colors relative ${
                 mobileTab === tab.key
-                  ? "text-[#ff9450]"
-                  : "text-[#766a59] hover:text-[#cabaa2]"
+                  ? "text-[#C9612B]"
+                  : "text-[#8A7455] hover:text-[#5c4a34]"
               }`}
             >
               {tab.label}
               {mobileTab === tab.key && (
-                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-[#ff9450]" />
+                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-[#C9612B]" />
               )}
             </button>
           ))}
         </div>
       )}
 
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
         {/* Main Content Area */}
 
         <div
           className={`${
-            !selectedQuizId || mobileTab === "list" ? "flex" : "hidden"
+            !selectedQuizId || mobileTab === "list"
+              ? "flex-1 min-h-0 flex flex-col"
+              : "hidden"
           } lg:contents`}
         >
           <QuizzesSidebar
@@ -295,7 +297,9 @@ export default function QuizzesPage() {
           <>
             <div
               className={`${
-                mobileTab === "details" ? "flex" : "hidden"
+                mobileTab === "details"
+                  ? "flex-1 min-h-0 flex flex-col"
+                  : "hidden"
               } lg:contents`}
             >
               <QuizzesMetaData
@@ -309,7 +313,9 @@ export default function QuizzesPage() {
             </div>
             <div
               className={`${
-                mobileTab === "questions" ? "flex" : "hidden"
+                mobileTab === "questions"
+                  ? "flex-1 min-h-0 flex flex-col"
+                  : "hidden"
               } lg:contents`}
             >
               <QuizzesQuestionList
@@ -323,7 +329,7 @@ export default function QuizzesPage() {
             </div>
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center text-[#6b5f52] text-sm font-body p-3">
+          <div className="flex-1 flex items-center justify-center text-[#8A7455] text-sm font-body p-3">
             Select a quiz to view details
           </div>
         )}

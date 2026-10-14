@@ -17,6 +17,18 @@ import LoadingScreen from "../components/LoadingScreen";
 
 const backendHost = import.meta.env.VITE_BACKEND_HOST;
 
+// Palette — keep in sync with StudentSidebar / StudentQuizWindow / StudentTimeLimit / StudentTopbar
+const C = {
+  ink: "#1C1917",
+  inkSoft: "#6B6259",
+  paper: "#FFFFFF",
+  page: "#FDF3EA",
+  tangerine: "#E8590C",
+  tangerineTint: "#FDEEE3",
+  tangerineDark: "#B8430A",
+  border: "#E7E1D8",
+};
+
 export default function StudentQuizPage() {
   // ----------------------------------------------------------------
   // STATES AND FRIENDS
@@ -42,6 +54,10 @@ export default function StudentQuizPage() {
   });
   const [showExitWarning, setShowExitWarning] = useState(false);
   const [showLogoutWarning, setShowLogoutWarning] = useState(false);
+
+  // Mobile question-list drawer - shared by StudentTopbar's hamburger button
+  // and StudentSidebar's drawer/backdrop. UI-only, doesn't touch quiz logic.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Fetch quiz data
   const {
@@ -269,14 +285,21 @@ export default function StudentQuizPage() {
 
   if (error) {
     return (
-      <div className="h-screen flex items-center justify-center bg-gray-900 text-gray-100">
-        <div className="text-center">
-          <p className="text-red-400">{error?.message}</p>
+      <div
+        className="h-screen flex items-center justify-center"
+        style={{ background: C.page, color: C.ink }}
+      >
+        <div
+          className="text-center rounded-2xl border p-8 shadow-sm max-w-sm"
+          style={{ background: C.paper, borderColor: C.border }}
+        >
+          <p style={{ color: "#B3261E" }}>{error?.message}</p>
           <button
             onClick={() => {
               deleteAttempt();
             }}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+            className="mt-4 text-white px-4 py-2 rounded-lg font-semibold text-sm shadow-sm transition-all hover:shadow-md active:scale-[0.98]"
+            style={{ background: C.tangerine }}
           >
             Back to Student Page
           </button>
@@ -290,20 +313,38 @@ export default function StudentQuizPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-900 text-gray-100">
-      <StudentTopbar onLogout={handleLogout} />
-      <div className="flex h-screen overflow-hidden bg-black">
+    <div
+      className="h-screen flex flex-col font-sans"
+      style={{ background: C.page, color: C.ink }}
+    >
+      <StudentTopbar
+        onLogout={handleLogout}
+        onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+      />
+      <div
+        className="flex h-screen overflow-hidden"
+        style={{ background: C.page }}
+      >
         {showExitWarning && (
-          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-sm text-center space-y-4">
-              <h2 className="text-white text-lg font-semibold">Leave Quiz?</h2>
-              <p className="text-gray-300 text-sm">
-                Your quiz will be auto-submitted if you navigate away.
+          <div
+            className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm"
+            style={{ background: "rgba(28,25,23,0.45)" }}
+          >
+            <div
+              className="rounded-2xl p-6 max-w-sm text-center space-y-4 shadow-xl border"
+              style={{ background: C.paper, borderColor: C.border }}
+            >
+              <h2 className="text-lg font-bold" style={{ color: C.ink }}>
+                Leave Exam?
+              </h2>
+              <p className="text-sm" style={{ color: C.inkSoft }}>
+                Your Exam will be auto-submitted if you navigate away.
               </p>
               <div className="flex justify-center gap-3">
                 <button
                   onClick={() => setShowExitWarning(false)}
-                  className="px-4 py-2 rounded bg-gray-700 text-white"
+                  className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  style={{ border: `1px solid ${C.border}`, color: C.inkSoft }}
                 >
                   Stay
                 </button>
@@ -312,7 +353,8 @@ export default function StudentQuizPage() {
                     setShowExitWarning(false);
                     handleQuizSubmit();
                   }}
-                  className="px-4 py-2 rounded bg-blue-600 text-white"
+                  className="px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-all hover:shadow-md active:scale-[0.98]"
+                  style={{ background: C.tangerine }}
                 >
                   Submit & Exit
                 </button>
@@ -321,16 +363,25 @@ export default function StudentQuizPage() {
           </div>
         )}
         {showLogoutWarning && (
-          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-xl max-w-sm text-center space-y-4">
-              <h2 className="text-white text-lg font-semibold">Leave Quiz?</h2>
-              <p className="text-gray-300 text-sm">
+          <div
+            className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm"
+            style={{ background: "rgba(28,25,23,0.45)" }}
+          >
+            <div
+              className="rounded-2xl p-6 max-w-sm text-center space-y-4 shadow-xl border"
+              style={{ background: C.paper, borderColor: C.border }}
+            >
+              <h2 className="text-lg font-bold" style={{ color: C.ink }}>
+                Leave Quiz?
+              </h2>
+              <p className="text-sm" style={{ color: C.inkSoft }}>
                 Your quiz will be auto-submitted if you navigate away.
               </p>
               <div className="flex justify-center gap-3">
                 <button
                   onClick={() => setShowLogoutWarning(false)}
-                  className="px-4 py-2 rounded bg-gray-700 text-white"
+                  className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  style={{ border: `1px solid ${C.border}`, color: C.inkSoft }}
                 >
                   Stay
                 </button>
@@ -339,7 +390,8 @@ export default function StudentQuizPage() {
                     setShowLogoutWarning(false);
                     submitAndLogout();
                   }}
-                  className="px-4 py-2 rounded bg-blue-600 text-white"
+                  className="px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-all hover:shadow-md active:scale-[0.98]"
+                  style={{ background: C.tangerine }}
                 >
                   Submit & Logout
                 </button>
@@ -354,6 +406,8 @@ export default function StudentQuizPage() {
           currentQuestionIndex={selectedQuestionIndex}
           answeredQuestions={answeredQuestions}
           onQuizSubmit={handleQuizSubmit}
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
         />
 
         {/* The Question Stage (Center) */}
@@ -365,6 +419,9 @@ export default function StudentQuizPage() {
           onNext={handleNext}
           answers={answers}
           onAnswerChange={handleAnswerChange}
+          totalQuestions={questions?.length ?? 0}
+          answeredCount={answeredQuestions.size}
+          onQuizSubmit={handleQuizSubmit}
         />
 
         {/* The Timer Sidebar (Right) */}
@@ -376,6 +433,8 @@ export default function StudentQuizPage() {
           maxAttempts={maxAttempts}
           attemptId={attemptId}
           questionId={selectedQuestion?.id}
+          currentQuestionIndex={selectedQuestionIndex}
+          totalQuestions={questions?.length ?? 0}
         />
       </div>
     </div>

@@ -141,11 +141,11 @@ export default function StudentTokenPage() {
 
       <div className="topbar">
         <div className="brand">
-          <div className="brand-mark">Q</div>
+          <div className="brand-mark">E</div>
 
           <div className="brand-text">
             <div className="name">
-              Quiz<span className="accent">Forge</span>
+              Exam<span className="accent">Gen</span>
             </div>
 
             <div className="tagline">Learn • Practice • Achieve</div>
@@ -207,7 +207,7 @@ export default function StudentTokenPage() {
                 ================================================= */}
 
             <h1>
-              Enter Quiz <span className="accent">Token</span>
+              Enter Exam <span className="accent">Token</span>
             </h1>
 
             <p className="subtext">
@@ -339,7 +339,7 @@ export default function StudentTokenPage() {
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
           <path d="m9 12 2 2 4-4" />
         </svg>
-        QuizForge <span className="dot">•</span> Built for the Classroom
+        ExamGen <span className="dot">•</span> Built for the Classroom
       </footer>
     </div>
   );

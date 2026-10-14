@@ -2,7 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 
-export default function SudentTopbar({ onLogout }) {
+// Palette — keep in sync with StudentSidebar / StudentQuizWindow / StudentTimeLimit
+const C = {
+  ink: "#1C1917",
+  inkSoft: "#6B6259",
+  paper: "#FFFFFF",
+  tangerine: "#E8590C",
+  border: "#E7E1D8",
+};
+
+export default function SudentTopbar({ onLogout, onToggleSidebar }) {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -18,11 +27,34 @@ export default function SudentTopbar({ onLogout }) {
   }, []);
 
   return (
-    <div className="border-b border-gray-700 p-4 flex items-center justify-between bg-gray-900">
-      {/* LEFT SIDE: Logo */}
-      <span className="text-xl font-bold text-white cursor-pointer hover:text-blue-400 transition-colors">
-        QuizForge
-      </span>
+    <div
+      className="p-4 flex items-center justify-between"
+      style={{ borderBottom: `1px solid ${C.border}`, background: C.paper }}
+    >
+      {/* LEFT SIDE: Mobile menu button + Logo */}
+      <div className="flex items-center gap-3">
+        {/* Opens the question list drawer below the lg breakpoint */}
+        <button
+          onClick={onToggleSidebar}
+          className="lg:hidden flex h-9 w-9 items-center justify-center rounded-lg"
+          style={{ color: C.tangerine }}
+          aria-label="Toggle question list"
+        >
+          <span className="text-lg leading-none">☰</span>
+        </button>
+        <span
+          className="flex items-center gap-1.5 text-xl font-bold cursor-pointer transition-colors"
+          style={{ color: C.ink }}
+        >
+          <span
+            className="flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold text-white"
+            style={{ background: C.tangerine }}
+          >
+            Q
+          </span>
+          Exam<span style={{ color: C.tangerine }}>Gen</span>
+        </span>
+      </div>
 
       {/* RIGHT SIDE: Actions */}
       <div className="flex items-center gap-4">
@@ -30,16 +62,20 @@ export default function SudentTopbar({ onLogout }) {
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-            className="w-10 h-10 rounded-full bg-blue-600 border-2 border-gray-700 
-              hover:border-blue-400 flex items-center justify-center overflow-hidden transition-all"
+            className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden transition-all"
+            style={{ background: C.ink }}
           >
             {/* Placeholder for Profile Image */}
             <span className="text-white text-xs font-bold">JD</span>
           </button>
           {isProfileMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl py-2 z-50">
+            <div
+              className="absolute right-0 mt-2 w-48 rounded-lg shadow-xl py-2 z-50"
+              style={{ background: C.paper, border: `1px solid ${C.border}` }}
+            >
               <button
-                className="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700 transition-colors"
+                className="w-full text-left px-4 py-2 transition-colors"
+                style={{ color: "#B3261E" }}
                 onClick={onLogout}
               >
                 Logout

@@ -9,19 +9,19 @@ const backendHost = import.meta.env.VITE_BACKEND_HOST;
 
 // shared clay styling tokens — cosmetic only, referenced by className below
 const wellInputClass =
-  "w-full px-3 py-2 bg-[#26211c] rounded-xl text-[#e8ddce] text-sm placeholder:text-[#766a59] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-3px_-3px_7px_rgba(255,255,255,0.04)] focus:outline-none focus:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.45),inset_-4px_-4px_8px_rgba(255,255,255,0.04),0_0_0_3px_rgba(255,148,80,0.35)] transition";
-const labelClass = "block text-sm font-medium text-[#cabaa2] mb-1";
+  "w-full px-3 py-2 bg-[#E8DCC8] rounded-xl text-[#332619] text-sm placeholder:text-[#8A7455] shadow-[inset_4px_4px_8px_rgba(151,122,79,0.22)] focus:outline-none focus:shadow-[inset_5px_5px_10px_rgba(151,122,79,0.24),0_0_0_3px_rgba(255,148,80,0.35)] transition";
+const labelClass = "block text-sm font-medium text-[#5c4a34] mb-1";
 const primaryBtnClass =
   "font-display font-bold rounded-xl px-4 py-2 text-[#3a2010] transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0.5";
 const primaryBtnStyle = {
   background: "linear-gradient(155deg, #ffab6b, #ff9450 55%, #e8752a)",
   boxShadow:
-    "inset 2px 2px 4px rgba(255,255,255,0.4), inset -3px -3px 6px rgba(80,30,5,0.4), 5px 5px 12px rgba(0,0,0,0.4)",
+    "inset -3px -3px 6px rgba(80,30,5,0.4), 5px 5px 12px rgba(151,122,79,0.22)",
 };
 const secondaryBtnClass =
-  "rounded-xl px-4 py-2 transition-all text-[#cabaa2] bg-[#26211c] hover:bg-[#3a3128] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-3px_-3px_7px_rgba(255,255,255,0.04)]";
+  "rounded-xl px-4 py-2 transition-all text-[#5c4a34] bg-[#E8DCC8] hover:bg-[#E3D3B8] shadow-[inset_4px_4px_8px_rgba(151,122,79,0.22)]";
 const modalPanelClass =
-  "bg-[#322b23] rounded-3xl shadow-[10px_10px_22px_rgba(0,0,0,0.5),-6px_-6px_16px_rgba(255,255,255,0.04)] font-body";
+  "bg-[#E3D3B8] rounded-3xl shadow-[10px_10px_22px_rgba(151,122,79,0.28)] font-body";
 
 // -------------------------------------------------------------------------------------
 //  SUB-COMPONENTS
@@ -79,7 +79,7 @@ function ClassAccessibilityDropdown({
       >
         <span className="truncate">{displayText}</span>
         <svg
-          className={`w-4 h-4 transition-transform text-[#766a59] ${
+          className={`w-4 h-4 transition-transform text-[#8A7455] ${
             isDropdownOpen ? "rotate-180" : ""
           }`}
           fill="none"
@@ -96,9 +96,9 @@ function ClassAccessibilityDropdown({
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 rounded-xl z-20 max-h-48 overflow-y-auto bg-[#26211c] shadow-[6px_6px_14px_rgba(0,0,0,0.45),-4px_-4px_10px_rgba(255,255,255,0.03)]">
+        <div className="absolute top-full left-0 right-0 mt-1 rounded-xl z-20 max-h-48 overflow-y-auto bg-[#E8DCC8] shadow-[6px_6px_14px_rgba(151,122,79,0.24)]">
           {/* "Anyone with the code" option */}
-          <label className="flex items-center gap-2 px-3 py-2 text-sm text-[#cabaa2] hover:bg-[#3a3128] cursor-pointer">
+          <label className="flex items-center gap-2 px-3 py-2 text-sm text-[#5c4a34] hover:bg-[#E3D3B8] cursor-pointer">
             <input
               type="checkbox"
               checked={selectedClassIds.length === 0}
@@ -109,7 +109,7 @@ function ClassAccessibilityDropdown({
           </label>
 
           {isFetchingClasses ? (
-            <p className="px-3 py-2 text-[#766a59] text-sm">
+            <p className="px-3 py-2 text-[#8A7455] text-sm">
               Loading classes...
             </p>
           ) : classFetchError ? (
@@ -120,7 +120,7 @@ function ClassAccessibilityDropdown({
             userClasses.map((cls) => (
               <label
                 key={cls.id}
-                className="flex items-center gap-2 px-3 py-2 text-sm text-[#cabaa2] hover:bg-[#3a3128] cursor-pointer"
+                className="flex items-center gap-2 px-3 py-2 text-sm text-[#5c4a34] hover:bg-[#E3D3B8] cursor-pointer"
               >
                 <input
                   type="checkbox"
@@ -132,7 +132,7 @@ function ClassAccessibilityDropdown({
               </label>
             ))
           ) : (
-            <p className="px-3 py-2 text-[#766a59] text-sm">
+            <p className="px-3 py-2 text-[#8A7455] text-sm">
               No classes found.
             </p>
           )}
@@ -155,7 +155,7 @@ function QuizForgeModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
       <div className={`${modalPanelClass} p-6 w-[500px] max-w-full mx-4`}>
-        <h2 className="text-xl font-display font-semibold mb-4 text-[#e8ddce]">
+        <h2 className="text-xl font-display font-semibold mb-4 text-[#332619]">
           Forge quiz
         </h2>
         <div className="space-y-4">
@@ -201,7 +201,7 @@ function QuizForgeModal({
                 type="text"
                 value={forgeQuizData.shareToken}
                 readOnly
-                className={`flex-1 ${wellInputClass} text-[#766a59]`}
+                className={`flex-1 ${wellInputClass} text-[#8A7455]`}
                 placeholder="Generating token..."
               />
               <button
@@ -226,7 +226,7 @@ function QuizForgeModal({
 
           {/* Accessibility */}
           <div>
-            <label className={labelClass}>Accessibility</label>
+            <label className={labelClass}>Who can Access?</label>
             <ClassAccessibilityDropdown
               selectedClassIds={forgeQuizData.selectedClassIds}
               setForgeQuizData={setForgeQuizData}
@@ -234,7 +234,7 @@ function QuizForgeModal({
               isFetchingClasses={isFetchingClasses}
               classFetchError={classFetchError}
             />
-            <p className="text-xs text-[#766a59] mt-2">
+            <p className="text-xs text-[#8A7455] mt-2">
               Leave as "Anyone with the code" or restrict to specific classes.
             </p>
           </div>
@@ -511,7 +511,7 @@ export default function TopBar({ selectedFile, setQuizMetadata }) {
   // -------------------------------------------------------------------------------------
 
   return (
-    <div className="mx-4 mt-4 px-5 py-3 flex items-center justify-between rounded-3xl bg-[#322b23] shadow-[10px_10px_22px_rgba(0,0,0,0.4),-6px_-6px_16px_rgba(255,255,255,0.04)]">
+    <div className="w-full px-5 py-3 flex items-center justify-between bg-[#E3D3B8] shadow-[0_4px_14px_rgba(151,122,79,0.2)]">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Baloo 2', sans-serif; }
@@ -528,13 +528,13 @@ export default function TopBar({ selectedFile, setQuizMetadata }) {
           style={{
             background: "linear-gradient(150deg, #ffab6b, #e8752a)",
             boxShadow:
-              "inset 2px 2px 4px rgba(255,255,255,0.4), inset -3px -3px 6px rgba(80,30,5,0.4), 4px 4px 10px rgba(0,0,0,0.4)",
+              "inset -3px -3px 6px rgba(80,30,5,0.4), 4px 4px 10px rgba(151,122,79,0.22)",
           }}
         >
-          Q
+          E
         </div>
-        <span className="font-display text-base font-bold text-[#e8ddce] group-hover:text-[#ff9450] transition-colors">
-          QuizForge
+        <span className="font-display text-base font-bold text-black group-hover:text-black transition-colors">
+          ExamGen
         </span>
       </Link>
 
@@ -547,7 +547,7 @@ export default function TopBar({ selectedFile, setQuizMetadata }) {
             style={primaryBtnStyle}
             onClick={openForgeQuizModal}
           >
-            Forge quiz
+            Forge Exam
           </button>
         )}
 
@@ -573,7 +573,7 @@ export default function TopBar({ selectedFile, setQuizMetadata }) {
             style={{
               background: "linear-gradient(150deg, #ffab6b, #e8752a)",
               boxShadow:
-                "inset 2px 2px 4px rgba(255,255,255,0.4), inset -3px -3px 6px rgba(80,30,5,0.4), 4px 4px 10px rgba(0,0,0,0.4)",
+                "inset -3px -3px 6px rgba(80,30,5,0.4), 4px 4px 10px rgba(151,122,79,0.22)",
             }}
           >
             <span className="text-[#3a2010] text-xs font-display font-bold">
@@ -581,18 +581,18 @@ export default function TopBar({ selectedFile, setQuizMetadata }) {
             </span>
           </button>
           {isProfileMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 rounded-2xl py-2 z-50 bg-[#26211c] shadow-[8px_8px_18px_rgba(0,0,0,0.5),-6px_-6px_14px_rgba(255,255,255,0.04)]">
+            <div className="absolute right-0 mt-2 w-48 rounded-2xl py-2 z-50 bg-[#E8DCC8] shadow-[8px_8px_18px_rgba(151,122,79,0.28)]">
               <button
-                className="w-full text-left px-4 py-2 text-sm text-[#cabaa2] hover:bg-[#3a3128] hover:text-[#e8ddce] transition-colors"
+                className="w-full text-left px-4 py-2 text-sm text-[#5c4a34] hover:bg-[#E3D3B8] hover:text-[#332619] transition-colors"
                 onClick={() => {
                   navigate("/teacher/quizzes");
                   setIsProfileMenuOpen(!isProfileMenuOpen);
                 }}
               >
-                Quizzes
+                Exams
               </button>
               <button
-                className="w-full text-left px-4 py-2 text-sm text-[#cabaa2] hover:bg-[#3a3128] hover:text-[#e8ddce] transition-colors"
+                className="w-full text-left px-4 py-2 text-sm text-[#5c4a34] hover:bg-[#E3D3B8] hover:text-[#332619] transition-colors"
                 onClick={() => {
                   navigate("/teacher/classes");
                   setIsProfileMenuOpen(false);
@@ -601,10 +601,10 @@ export default function TopBar({ selectedFile, setQuizMetadata }) {
                 Classes
               </button>
 
-              <div className="h-px bg-black/20 my-1"></div>
+              <div className="h-px bg-[#D0BB98] my-1"></div>
 
               <button
-                className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-[#3a3128] transition-colors"
+                className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-[#E3D3B8] transition-colors"
                 onClick={handleLogout}
               >
                 Logout

@@ -2,12 +2,14 @@
 import React, { useEffect } from "react";
 
 const inputClass =
-  "w-full bg-[#26211c] rounded-xl p-2.5 sm:p-3 text-sm text-[#e8ddce] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.4),inset_-3px_-3px_7px_rgba(255,255,255,0.04)] focus:outline-none focus:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.45),inset_-4px_-4px_8px_rgba(255,255,255,0.04),0_0_0_3px_rgba(255,148,80,0.35)] transition-all font-body";
-const labelClass = "block text-sm font-medium text-[#766a59] mb-2 font-body";
+  "w-full bg-[#E8DCC8] rounded-xl p-2.5 sm:p-3 text-sm text-[#332619] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.10)] focus:outline-none focus:shadow-[inset_5px_5px_10px_rgba(0,0,0,0.12),0_0_0_3px_rgba(255,148,80,0.35)] transition-all font-body";
+const labelClass = "block text-sm font-medium text-[#8A7455] mb-2 font-body";
+// Solid primary button (no gradient)
+const primaryBtnClass =
+  "w-full font-display font-bold text-[#3a2010] py-3 rounded-xl transition-all mt-4 bg-[#ff9450] hover:bg-[#f58540] hover:-translate-y-0.5 active:translate-y-0.5";
 const primaryBtnStyle = {
-  background: "linear-gradient(155deg, #ffab6b, #ff9450 55%, #e8752a)",
   boxShadow:
-    "inset 2px 2px 4px rgba(255,255,255,0.4), inset -3px -3px 6px rgba(80,30,5,0.4), 6px 6px 14px rgba(0,0,0,0.4)",
+    "inset -3px -3px 6px rgba(80,30,5,0.4), 6px 6px 14px rgba(0,0,0,0.10)",
 };
 
 const QuestionList = ({
@@ -27,12 +29,32 @@ const QuestionList = ({
     setEditingQuestion({ ...question }); // Clone to avoid direct mutation
   };
 
+  const scrollStyles = `
+    .qql-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+    .qql-scroll::-webkit-scrollbar-track {
+      background: #F2E8D8;
+    }
+    .qql-scroll::-webkit-scrollbar-thumb {
+      background: #E2692A;
+      border-radius: 6px;
+    }
+    .qql-scroll::-webkit-scrollbar-thumb:hover {
+      background: #A84C1F;
+    }
+    .qql-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: #E2692A #F2E8D8;
+    }
+  `;
+
   if (isFetching) {
     return (
-      <div className="flex-1 h-full w-full bg-[#26211c] flex items-center justify-center font-body p-3">
-        <div className="w-full h-full rounded-2xl bg-[#322b23] flex items-center justify-center shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)]">
-          <div className="flex flex-col items-center gap-3 text-[#cabaa2]">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#ff9450] border-t-transparent" />
+      <div className="flex-1 h-full w-full bg-[#E8DCC8] flex items-center justify-center font-body p-3">
+        <div className="w-full h-full rounded-2xl bg-[#F2E8D8] flex items-center justify-center shadow-[6px_6px_14px_rgba(0,0,0,0.10)]">
+          <div className="flex flex-col items-center gap-3 text-[#5c4a34]">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#C9612B] border-t-transparent" />
             <span className="text-sm">Loading questions...</span>
           </div>
         </div>
@@ -43,21 +65,22 @@ const QuestionList = ({
   // If we are editing, show the Editor View
   if (editingQuestion) {
     return (
-      <div className="flex-1 h-full w-full bg-[#26211c] flex flex-col p-3 font-body">
+      <div className="flex-1 h-full w-full bg-[#E8DCC8] flex flex-col p-3 font-body">
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
           .font-display { font-family: 'Baloo 2', sans-serif; }
           .font-body { font-family: 'Inter', sans-serif; }
+          ${scrollStyles}
         `}</style>
-        <div className="flex-1 rounded-2xl bg-[#322b23] shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)] p-4 sm:p-6 overflow-y-auto">
+        <div className="flex-1 rounded-2xl bg-[#F2E8D8] shadow-[6px_6px_14px_rgba(0,0,0,0.10)] p-4 sm:p-6 overflow-y-auto qql-scroll">
           <div className="flex items-center mb-6">
             <button
               onClick={() => setEditingQuestion(null)}
-              className="text-[#766a59] hover:text-[#e8ddce] mr-4 transition-colors"
+              className="text-[#8A7455] hover:text-[#332619] mr-4 transition-colors"
             >
               ←
             </button>
-            <h3 className="text-lg sm:text-xl font-display font-bold text-[#e8ddce]">
+            <h3 className="text-lg sm:text-xl font-display font-bold text-[#332619]">
               Edit question
             </h3>
           </div>
@@ -106,7 +129,7 @@ const QuestionList = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {["A", "B", "C", "D"].map((letter) => (
                   <div key={letter}>
-                    <label className="block text-xs font-medium text-[#766a59] mb-1 font-body">
+                    <label className="block text-xs font-medium text-[#8A7455] mb-1 font-body">
                       Option {letter}
                     </label>
                     <input
@@ -182,7 +205,7 @@ const QuestionList = ({
             )}
             <button
               onClick={() => onUpdateQuestion(selectedQuiz.id, editingQuestion)}
-              className="w-full font-display font-bold text-[#3a2010] py-3 rounded-xl transition-all mt-4 hover:-translate-y-0.5 active:translate-y-0.5"
+              className={primaryBtnClass}
               style={primaryBtnStyle}
             >
               Save changes
@@ -195,36 +218,37 @@ const QuestionList = ({
 
   // --- List View
   return (
-    <div className="flex-1 h-full w-full bg-[#26211c] flex flex-col font-body p-3">
+    <div className="flex-1 h-full w-full bg-[#E8DCC8] flex flex-col font-body p-3">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Baloo 2', sans-serif; }
         .font-body { font-family: 'Inter', sans-serif; }
+        ${scrollStyles}
       `}</style>
-      <div className="flex-1 flex flex-col rounded-2xl bg-[#322b23] overflow-hidden shadow-[6px_6px_14px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.03)]">
-        <div className="p-4 bg-[#3a3128]">
-          <h3 className="text-base font-display font-semibold text-[#e8ddce]">
+      <div className="flex-1 flex flex-col rounded-2xl bg-[#F2E8D8] overflow-hidden shadow-[6px_6px_14px_rgba(0,0,0,0.10)]">
+        <div className="p-4 bg-[#E3D3B8]">
+          <h3 className="text-base font-display font-semibold text-[#332619]">
             Questions
           </h3>
         </div>
 
-        <div className="flex-1 p-4 overflow-y-auto">
+        <div className="flex-1 p-4 overflow-y-auto qql-scroll">
           {questions?.length > 0 ? (
             <div className="space-y-2">
               {questions.map((question, index) => (
                 <div
                   key={question.id}
                   onClick={() => handleEditClick(question)} // TRIGGER THE EDIT MODE
-                  className="p-3 rounded-xl cursor-pointer transition-all group bg-[#26211c] hover:bg-[#3a3128] shadow-[inset_3px_3px_6px_rgba(0,0,0,0.4),inset_-3px_-3px_6px_rgba(255,255,255,0.03)]"
+                  className="p-3 rounded-xl cursor-pointer transition-all group bg-[#E8DCC8] hover:bg-[#E3D3B8] shadow-[inset_3px_3px_6px_rgba(0,0,0,0.10)]"
                 >
                   <div className="flex justify-between items-center gap-3">
-                    <div className="text-sm text-[#cabaa2] min-w-0 truncate">
-                      <span className="font-semibold text-[#ff9450]">
+                    <div className="text-sm text-[#5c4a34] min-w-0 truncate">
+                      <span className="font-semibold text-[#C9612B]">
                         Q{index + 1}:
                       </span>{" "}
                       {question.questionText}
                     </div>
-                    <span className="text-xs text-[#766a59] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hidden sm:inline">
+                    <span className="text-xs text-[#8A7455] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hidden sm:inline">
                       Edit →
                     </span>
                   </div>
@@ -232,7 +256,7 @@ const QuestionList = ({
               ))}
             </div>
           ) : (
-            <div className="flex items-center justify-center h-full text-[#6b5f52] text-sm">
+            <div className="flex items-center justify-center h-full text-[#8A7455] text-sm">
               No questions yet
             </div>
           )}
