@@ -38,9 +38,7 @@ function FileModal({
   if (isFetching) {
     return (
       <div className="fixed inset-0 bg-modalback/70 flex items-center justify-center z-50">
-        <div
-          className={`${modalPanelClass} w-96 max-h-[80vh] overflow-y-auto p-6`}
-        >
+        <div className={`${modalPanelClass} w-96 p-6`}>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-display font-semibold text-inkondark">
               My Documents
@@ -63,9 +61,7 @@ function FileModal({
   if (error) {
     return (
       <div className="fixed inset-0 bg-modalback/70 flex items-center justify-center z-50">
-        <div
-          className={`${modalPanelClass} w-96 max-h-[80vh] overflow-y-auto p-6`}
-        >
+        <div className={`${modalPanelClass} w-96 p-6`}>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-display font-semibold text-inkondark">
               My Documents
@@ -89,9 +85,7 @@ function FileModal({
 
   return (
     <div className="fixed inset-0 bg-modalback/70 flex items-center justify-center z-50">
-      <div
-        className={`${modalPanelClass} w-96 max-h-[80vh] overflow-y-auto p-6`}
-      >
+      <div className={`${modalPanelClass} w-96 p-6`}>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-display font-semibold text-inkondark">
             My Documents
@@ -198,12 +192,10 @@ function SelectQuizModal({
   }
 
   if (error) {
-    {
-      console.error(error);
-    }
+    console.error(error);
     return (
       <div className="fixed inset-0 bg-canvas/70 flex items-center justify-center z-50">
-        <div className="bg-specialsurface rounded-lg p-6 w-96 max-h-[70vh] overflow-y-auto border border-muted font-body">
+        <div className="bg-specialsurface rounded-lg p-6 w-96 border border-muted font-body">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-display font-semibold text-inkondark">
               Error
@@ -226,7 +218,7 @@ function SelectQuizModal({
 
   return (
     <div className="fixed inset-0 bg-modalback/70 flex items-center justify-center z-50">
-      <div className="bg-specialsurface rounded-lg p-6 w-96 max-h-[70vh] overflow-y-auto border border-muted font-body">
+      <div className="bg-specialsurface rounded-lg p-6 w-96 border border-muted font-body">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-display font-semibold text-inkondark">
             Select a quiz
@@ -486,18 +478,6 @@ function SideBar({
       <div className="w-full lg:w-52 bg-specialsurface backdrop-blur flex flex-col font-body p-2 gap-2">
         {/* Logo — the topbar's logo moved here; shown at lg+ only, where the
             sidebar cuts into the topbar's row (below lg the topbar keeps it) */}
-        <Link
-          to="/teacher"
-          className="hidden lg:flex items-center gap-2.5 shrink-0 px-1 cursor-pointer group"
-        >
-          <div className="w-9 h-9 rounded-md flex items-center justify-center font-display font-extrabold text-inkondark text-sm bg-accent">
-            Q
-          </div>
-          <span className="font-display font-bold text-inkondark group-hover:text-accent transition-colors">
-            Ilmari<span className="text-accent">Gen</span>
-          </span>
-        </Link>
-
         {/* File List - 30% */}
         <div className="h-[30%] rounded-lg p-2 overflow-y-auto border border-muted/20">
           <div className="flex flex-row items-center justify-between mb-3 pb-2 border-b border-muted/20">

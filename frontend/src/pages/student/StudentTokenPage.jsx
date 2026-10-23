@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../../components/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import "./StudentTokenPage.css";
+import quizForgeLogo from "../../assets/quizforge-logo.png";
 
 // image imports
 import avatarPeeking from "../../assets/avatar_token.png";
@@ -141,7 +142,9 @@ export default function StudentTokenPage() {
 
       <div className="topbar">
         <div className="brand">
-          <div className="brand-mark">Q</div>
+          <div className="brand-mark">
+            <img src={quizForgeLogo} alt="QuizForge logo" />
+          </div>
 
           <div className="brand-text">
             <div className="name">

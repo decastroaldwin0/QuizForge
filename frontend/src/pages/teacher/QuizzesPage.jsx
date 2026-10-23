@@ -274,11 +274,13 @@ export default function QuizzesPage() {
         </div>
       )}
 
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
         {/* Sidebar */}
         <div
           className={`${
-            !selectedQuizId || mobileTab === "list" ? "flex" : "hidden"
+            !selectedQuizId || mobileTab === "list"
+              ? "flex flex-1 min-h-0 flex-col"
+              : "hidden"
           } lg:contents`}
         >
           <QuizzesSidebar
@@ -286,7 +288,10 @@ export default function QuizzesPage() {
             isError={queryQuizzesError}
             quizzes={queryQuizzes}
             selectedQuizId={selectedQuizId}
-            setSelectedQuizId={setSelectedQuizId}
+            onSelectQuiz={(quizId) => {
+              setSelectedQuizId(quizId);
+              if (quizId) setMobileTab("details");
+            }}
             onDeleteQuiz={handleDeleteQuiz}
           />
         </div>
@@ -295,7 +300,7 @@ export default function QuizzesPage() {
           <>
             <div
               className={`${
-                mobileTab === "details" ? "flex" : "hidden"
+                mobileTab === "details" ? "flex min-h-0 flex-col" : "hidden"
               } lg:contents`}
             >
               <QuizzesMetaData
@@ -309,7 +314,7 @@ export default function QuizzesPage() {
             </div>
             <div
               className={`${
-                mobileTab === "questions" ? "flex" : "hidden"
+                mobileTab === "questions" ? "flex min-h-0 flex-col" : "hidden"
               } lg:contents`}
             >
               <QuizzesQuestionList

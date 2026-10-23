@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../AuthProvider";
 import toast from "react-hot-toast";
 import { classServices } from "../../services/classServices";
+import quizForgeLogo from "../../assets/quizforge-logo.png";
 
 const backendHost = import.meta.env.VITE_BACKEND_HOST;
 
@@ -145,7 +146,7 @@ function QuizForgeModal({
 }) {
   return (
     <div className="fixed inset-0 bg-modalback/70 flex items-center justify-center z-50">
-      <div className={`${modalPanelClass} p-6 w-[500px] max-w-full mx-4`}>
+    <div className={`${modalPanelClass} p-6 w-[500px] max-w-full mx-4`}>
         <h2 className="text-xl font-display font-semibold mb-4 text-inkondark">
           Forge quiz
         </h2>
@@ -296,7 +297,7 @@ function QuizForgeModal({
           <button
             onClick={closeForgeQuizModal}
             disabled={isCreatingQuiz}
-            className={`flex-1 ${secondaryBtnClass}`}
+            className={`flex-1 ${secondaryBtnClass} cancel-btn`}
           >
             Cancel
           </button>
@@ -507,7 +508,7 @@ export default function TopBar({
 
   return (
     <>
-      <div className="px-5 py-3 flex items-center justify-between bg-specialsurface backdrop-blur z-40 border-b-2 border-accent/20">
+      <div className="w-full px-3 py-3 flex items-center justify-start bg-specialsurface backdrop-blur z-40 border-b-2 border-accent/20 gap-3" >
         <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Baloo 2', sans-serif; }
@@ -517,23 +518,20 @@ export default function TopBar({
         {/* LEFT SIDE: Logo (hidden at lg+ when the sidebar owns it — see logoClass) */}
         <Link
           to="/teacher"
-          className={`flex items-center gap-2.5 cursor-pointer group ${logoClass}`}
+          className={`flex min-w-0 flex-1 items-center gap-2.5 cursor-pointer group ${logoClass}`}
         >
-          <div
-            className="w-9 h-9 rounded-md flex items-center justify-center font-display font-extrabold text-inkondark text-sm"
-            style={{
-              background: "var(--accent)",
-            }}
-          >
-            Q
-          </div>
-          <span className="font-display text-base font-bold text-inkondark group-hover:text-accent transition-colors">
-            Ilmari<span className="text-accent">Gen</span>
+          <img
+            src={quizForgeLogo}
+            alt="QuizForge logo"
+            className="w-9 h-9 shrink-0 object-contain"
+          />
+          <span className="min-w-0 font-display text-sm sm:text-[1.05rem] font-bold tracking-tight text-inkondark group-hover:text-accent transition-colors whitespace-normal break-words">
+            Computer Communication Development Institute
           </span>
         </Link>
 
         {/* RIGHT SIDE: Actions (ml-auto keeps them right even when the logo is hidden) */}
-        <div className="flex items-center gap-3 font-body ml-auto">
+        <div className="flex items-center gap-3 font-body ml-auto shrink-0">
           {/* Forge Quiz Button */}
           {showFileButton && (
             <button className={primaryBtnClass} onClick={openForgeQuizModal}>

@@ -124,103 +124,97 @@ export default function QuizMakerSkeleton() {
   }
 
   return (
-    <div className="h-dvh flex flex-col lg:flex-row bg-canvas text-inkondark">
+    <div className="h-dvh flex flex-col bg-canvas text-inkondark">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
         .font-display { font-family: 'Space Grotesk', sans-serif; }
         .font-body { font-family: 'Inter', sans-serif; }
       `}</style>
 
-      {/* Left: Sidebar — upload lives here. On mobile it's a tab panel ordered
-          below the topbar; at lg+ it cuts into the topbar's row, spanning the
-          full height while the topbar starts to its right. */}
-      <div
-        className={`order-2 ${
-          mobileTab === "sidebar" ? "flex flex-1 min-h-0" : "hidden"
-        } lg:order-none lg:flex lg:flex-none lg:w-52 lg:min-h-0`}
-      >
-        <SideBar
-          uploadedFiles={uploadedFiles}
-          setUploadedFiles={setUploadedFiles}
-          selectedFileId={selectedFileId}
-          setSelectedFileId={setSelectedFileId}
-          selectedFile={selectedFile}
-          selectedQuestionId={selectedQuestionId}
-          setSelectedQuestionId={setSelectedQuestionId}
-          selectedQuestion={selectedQuestion}
-          questions={queryQuestionsData?.questionList}
-          questionsError={questionsError}
-          currentQuiz={quizMetadata}
-          setCurrentQuiz={setQuizMetadata}
-          isFetching={isFetching}
-          handleFileUpload={handleFileUpload}
-          isUploading={isUploading}
-        />
-      </div>
+      <TopBar
+        selectedFile={selectedFile}
+        setQuizMetadata={setQuizMetadata}
+      />
 
-      {/* Right column: top bar + (mobile) tab switcher + viewer/editor panels.
-          flex-none while the sidebar panel owns the mobile screen so the
-          sidebar keeps the remaining height below the topbar. */}
-      <div
-        className={`${
-          mobileTab === "sidebar" ? "flex-none" : "flex-1"
-        } lg:flex-1 flex flex-col min-h-0 min-w-0`}
-      >
-        {/* Top Bar — needs selectedFile (for pre-filling quiz title) and
-            setQuizMetadata. The logo lives in the sidebar at lg+, so the
-            topbar only shows it below lg. */}
-        <TopBar
-          selectedFile={selectedFile}
-          setQuizMetadata={setQuizMetadata}
-          logoClass="lg:hidden"
-        />
-
-        {/* Mobile/tablet panel switcher */}
-        <div className="flex lg:hidden border-b border-muted/20 bg-canvas font-body">
-          {[
-            { key: "sidebar", label: "Files" },
-            { key: "viewer", label: "Viewer" },
-            { key: "editor", label: "Editor" },
-          ].map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setMobileTab(tab.key)}
-              className={`flex-1 py-2.5 text-sm font-medium transition-colors relative ${
-                mobileTab === tab.key
-                  ? "text-accent"
-                  : "text-muted hover:text-inkondark"
-              }`}
-            >
-              {tab.label}
-              {mobileTab === tab.key && (
-                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent" />
-              )}
-            </button>
-          ))}
+      <div className="flex flex-1 min-h-0 flex-col lg:flex-row">
+        {/* Left: Sidebar — upload lives here. */}
+        <div
+          className={`order-2 ${
+            mobileTab === "sidebar" ? "flex flex-1 min-h-0" : "hidden"
+          } lg:order-none lg:flex lg:flex-none lg:w-52 lg:min-h-0`}
+        >
+          <SideBar
+            uploadedFiles={uploadedFiles}
+            setUploadedFiles={setUploadedFiles}
+            selectedFileId={selectedFileId}
+            setSelectedFileId={setSelectedFileId}
+            selectedFile={selectedFile}
+            selectedQuestionId={selectedQuestionId}
+            setSelectedQuestionId={setSelectedQuestionId}
+            selectedQuestion={selectedQuestion}
+            questions={queryQuestionsData?.questionList}
+            questionsError={questionsError}
+            currentQuiz={quizMetadata}
+            setCurrentQuiz={setQuizMetadata}
+            isFetching={isFetching}
+            handleFileUpload={handleFileUpload}
+            isUploading={isUploading}
+          />
         </div>
 
-        {/* Panels: source file viewer + question editor */}
-        <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
-          {/* Middle: Source File Viewer */}
-          <div
-            className={`${
-              mobileTab === "viewer" ? "flex flex-1 min-h-0" : "hidden"
-            } lg:contents`}
-          >
-            <FileViewer selectedFile={selectedFile} />
+        {/* Right column: (mobile) tab switcher + viewer/editor panels. */}
+        <div
+          className={`${
+            mobileTab === "sidebar" ? "flex-none" : "flex-1"
+          } lg:flex-1 flex flex-col min-h-0 min-w-0`}
+        >
+          {/* Mobile/tablet panel switcher */}
+          <div className="flex lg:hidden border-b border-muted/20 bg-canvas font-body">
+            {[
+              { key: "sidebar", label: "Files" },
+              { key: "viewer", label: "Viewer" },
+              { key: "editor", label: "Editor" },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setMobileTab(tab.key)}
+                className={`flex-1 py-2.5 text-sm font-medium transition-colors relative ${
+                  mobileTab === tab.key
+                    ? "text-accent"
+                    : "text-muted hover:text-inkondark"
+                }`}
+              >
+                {tab.label}
+                {mobileTab === tab.key && (
+                  <span className="absolute left-0 bottom-0 w-full h-[2px] bg-accent" />
+                )}
+              </button>
+            ))}
           </div>
 
-          {/* Right: Question Editor */}
-          <div
-            className={`${
-              mobileTab === "editor" ? "flex flex-1 min-h-0" : "hidden"
-            } lg:contents`}
-          >
-            <QuestionEditor
-              selectedQuestion={selectedQuestion}
-              setSelectedQuestionId={setSelectedQuestionId}
-              quizMetadata={quizMetadata}
-            />
+          {/* Panels: source file viewer + question editor */}
+          <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
+            {/* Middle: Source File Viewer */}
+            <div
+              className={`${
+                mobileTab === "viewer" ? "flex flex-1 min-h-0" : "hidden"
+              } lg:contents`}
+            >
+              <FileViewer selectedFile={selectedFile} />
+            </div>
+
+            {/* Right: Question Editor */}
+            <div
+              className={`${
+                mobileTab === "editor" ? "flex flex-1 min-h-0" : "hidden"
+              } lg:contents`}
+            >
+              <QuestionEditor
+                selectedQuestion={selectedQuestion}
+                setSelectedQuestionId={setSelectedQuestionId}
+                quizMetadata={quizMetadata}
+              />
+            </div>
           </div>
         </div>
       </div>
