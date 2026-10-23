@@ -1,6 +1,7 @@
 /* ==========================================================================
    QuizForge Login Page
    React conversion of the original QuizForge design
+   (FULL-SCREEN VERSION — see sections 7b and 20b)
    ========================================================================== */
 
 /* ==========================================================================
@@ -29,11 +30,16 @@
   --color-text-muted: var(--muted);
   --color-text-caption: var(--muted);
   --color-text-light: var(--muted);
+  --color-text-paper-muted: var(--mutedonlight);
 
-  --color-input-bg: var(--darkslate);
-  --color-input-border: rgb(var(--muted-rgb) / 0.3);
-  --color-input-focus: var(--accent);
-  --color-input-text: var(--inkondark);
+  --color-input-bg: var(--logininput);
+  --color-input-border: var(--logininputborder);
+  --color-login-field-outline: var(--logininputoutline);
+  /* Focus color comes from colors.js (logininputfocus), NOT accent,
+     because red looks like an error to users. */
+  --color-input-focus: var(--logininputfocus);
+  --color-input-text: var(--ink);
+  --color-input-placeholder: var(--mutedonlight);
   --color-badge-bg: var(--surface);
 
   --font-family-main:
@@ -45,10 +51,22 @@
   --radius-pill: 9999px;
 
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
   --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Fill color behind the full-screen artwork.
+     Match this to the cream edge of login-design.png. */
+  --login-bg: #fdf1e3;
+
+  /* Full-screen artwork settings (desktop).
+     --art-ratio : width / height of login-design.png (~2.18 = 24:11).
+                   If the form looks off-center, set this to the real
+                   pixel size of your PNG, e.g. calc(1672 / 768).
+     --zoom-out  : 1 = pure "cover" (crops more of the art).
+                   Lower = zoomed out, shows more of the art (Smarter
+                   Exams etc.) and fills the gap with --login-bg. */
+  --art-ratio: 2.1818;
+  --zoom-out: 0.85;
 }
 
 /* ==========================================================================
@@ -67,19 +85,15 @@ html,
 body,
 #root {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 }
 
 html,
 body {
   font-family: var(--font-family-main);
-
   background: var(--color-page-bg-start);
-
   color: var(--color-text-main);
-
   overflow-x: hidden;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -90,19 +104,15 @@ body {
 
 .page-container {
   position: relative;
-
   width: 100%;
   min-height: 100vh;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 40px 20px;
 
-  /* Was `overflow: hidden` — clipped taller forms (e.g. signup) on short
-     viewports instead of letting the page scroll. Horizontal overflow
-     from the decorative art still stays clipped. */
+  /* Horizontal overflow from decorative art stays clipped; vertical
+     scrolling is allowed so tall forms (signup) don't get cut off. */
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -113,16 +123,13 @@ body {
 
 .floating-decor {
   position: absolute;
-
   z-index: 1;
-
   pointer-events: none;
   user-select: none;
 }
 
 .floating-decor img {
   display: block;
-
   width: 100%;
   height: auto;
 }
@@ -130,36 +137,28 @@ body {
 .decor-lightbulb {
   top: 6%;
   left: 6%;
-
   width: 110px;
-
   animation: float-gentle 4.5s ease-in-out infinite alternate;
 }
 
 .decor-checklist {
   top: 38%;
   left: 4%;
-
   width: 95px;
-
   animation: float-subtle 5.2s ease-in-out infinite alternate 0.8s;
 }
 
 .decor-books {
   top: 10%;
   right: 5%;
-
   width: 130px;
-
   animation: float-gentle 4.8s ease-in-out infinite alternate 0.4s;
 }
 
 .decor-paper-plane {
   bottom: 12%;
   right: 5%;
-
   width: 120px;
-
   animation: float-glide 6s ease-in-out infinite alternate 1.2s;
 }
 
@@ -167,7 +166,6 @@ body {
   0% {
     transform: translateY(0) rotate(0deg);
   }
-
   100% {
     transform: translateY(-16px) rotate(4deg);
   }
@@ -177,7 +175,6 @@ body {
   0% {
     transform: translateY(0) rotate(0deg) scale(1);
   }
-
   100% {
     transform: translateY(-12px) rotate(-3deg) scale(1.03);
   }
@@ -187,7 +184,6 @@ body {
   0% {
     transform: translate(0, 0) rotate(0deg);
   }
-
   100% {
     transform: translate(-10px, -18px) rotate(-6deg);
   }
@@ -199,24 +195,17 @@ body {
 
 .brand-tagline {
   position: absolute;
-
   bottom: 40px;
   left: 50px;
-
   z-index: 2;
-
   user-select: none;
 }
 
 .brand-tagline h1 {
   font-size: 1.5rem;
-
   font-weight: 800;
-
   line-height: 1.2;
-
   color: var(--color-text-main);
-
   letter-spacing: -0.02em;
 }
 
@@ -227,11 +216,8 @@ body {
 .brand-tagline .accent-bar {
   width: 48px;
   height: 5px;
-
   background: var(--color-orange-primary);
-
   border-radius: 8px;
-
   margin-top: 8px;
 }
 
@@ -241,39 +227,26 @@ body {
 
 .stage-wrapper {
   position: relative;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   z-index: 5;
-
   width: 100%;
   max-width: 1100px;
-
   margin: 0 auto;
 }
 
 /* ==========================================================================
-   7. LEANING MODE
+   7. LEANING MODE (base)
    ========================================================================== */
 
 /*
-   IMPORTANT:
-
    The mascot, clipboard, books, lightbulb, checklist and airplane are
-   already contained inside:
+   already contained inside login-design.png, so React only places the
+   form content over the image.
 
-   leaning_stage_bg_clean.png
-
-   Therefore React only places the form content over the image.
-
-   This background-image layout only works while the stage keeps its
-   1024:576 (landscape) aspect ratio. Below ~860px viewport width there
-   isn't enough height left for the form once that ratio is preserved,
-   so section 24 below swaps to a plain card (no background art) at
-   that breakpoint instead of continuing to shrink the illustration.
+   Desktop (> 860px) gets the full-screen "cover" layout in section 7b.
+   Below that, section 24 swaps to a plain card with no background art.
 */
 
 .page-container.leaning-mode .floating-decor,
@@ -284,14 +257,10 @@ body {
 
 .page-container.leaning-mode .stage-wrapper {
   max-width: 1040px;
-
   aspect-ratio: 1024 / 576;
-
-  background: url("../assets/leaning_stage_bg_clean.png") no-repeat center
-    center / contain;
-
+  background: url("../assets/login-design.png") no-repeat center center /
+    contain;
   container-type: inline-size;
-
   container-name: stage;
 }
 
@@ -301,27 +270,19 @@ body {
 
 .page-container.leaning-mode .clipboard-card {
   position: absolute;
-
   left: 40.8%;
   top: 13.5%;
-
   width: 42%;
   height: 76%;
-
   margin-left: 0;
-
   perspective: none;
-
   z-index: 10;
 }
 
 .page-container.leaning-mode .clipboard-board {
   background: transparent;
-
   border: none;
-
   padding: 0;
-
   width: 100%;
   height: 100%;
 }
@@ -332,19 +293,65 @@ body {
 
 .page-container.leaning-mode .paper-sheet {
   background: transparent;
-
   border: none;
-
   width: 100%;
   height: 100%;
-
   padding: clamp(4px, 0.6cqw, 8px) clamp(12px, 2cqw, 26px);
-
   display: flex;
-
   flex-direction: column;
-
   justify-content: space-between;
+}
+
+/* ==========================================================================
+   7b. LEANING MODE — FULL SCREEN (desktop only)
+   The stage has the SAME aspect ratio as the artwork, so every percentage
+   below maps 1:1 onto the picture (no cropping inside the stage).
+   The clipboard-card is positioned exactly over the white part of the
+   board, so all text stays inside the container.
+   ========================================================================== */
+
+@media (min-width: 861px) {
+  .page-container.leaning-mode {
+    padding: 0;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--login-bg);
+  }
+
+  .page-container.leaning-mode .stage-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* cover, but zoomed out a bit by --zoom-out */
+    width: max(100vw, calc(100dvh * var(--art-ratio) * var(--zoom-out)));
+    max-width: none;
+    margin: 0;
+
+    aspect-ratio: var(--art-ratio);
+    background: url("../assets/login-design.png") no-repeat center center / 100%
+      100%;
+
+    container-type: inline-size;
+    container-name: stage;
+  }
+
+  /* White area of the clipboard in the artwork */
+  .page-container.leaning-mode .clipboard-card {
+    left: 45.4%;
+    top: 25%;
+    width: 28.4%;
+    height: 58%;
+  }
+
+  .page-container.leaning-mode .paper-sheet {
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
 }
 
 /* ==========================================================================
@@ -353,59 +360,38 @@ body {
 
 .card-header {
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   margin-bottom: 24px;
 }
 
 .brand-logo {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 }
 
 .logo-icon-box {
   width: 46px;
   height: 46px;
-
-  background: var(--accent);
-
-  border-radius: 8px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.logo-icon-box .q-letter {
-  color: white;
-
-  font-size: 1.75rem;
-
-  font-weight: 800;
-
-  line-height: 1;
-
-  font-family: var(--font-family-main);
-
-  letter-spacing: -0.04em;
+.logo-icon-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .brand-text .brand-name {
   font-size: 1.35rem;
-
   font-weight: 800;
-
   color: var(--color-text-main);
-
   line-height: 1.1;
-
   letter-spacing: -0.02em;
 }
 
@@ -415,13 +401,9 @@ body {
 
 .brand-text .brand-subtext {
   font-size: 0.72rem;
-
   font-weight: 600;
-
-  color: var(--color-text-muted);
-
+  color: var(--color-text-paper-muted);
   letter-spacing: 0.05em;
-
   margin-top: 2px;
 }
 
@@ -429,47 +411,34 @@ body {
 
 .classroom-badge {
   display: flex;
-
   align-items: center;
-
   gap: 8px;
-
   background: var(--color-badge-bg);
-
   border: 1px solid var(--color-input-border);
-
   padding: 6px 14px;
-
   border-radius: var(--radius-pill);
 }
 
 .badge-icon {
   font-size: 1rem;
-
   color: var(--inkondark);
 }
 
 .badge-text {
   display: flex;
-
   flex-direction: column;
-
   line-height: 1.1;
 }
 
 .badge-text .small-text {
   font-size: 0.62rem;
-
   color: var(--color-text-muted);
-
   font-weight: 500;
 }
 
 .badge-text .strong-text {
   font-size: 0.72rem;
-
   color: var(--inkondark);
-
   font-weight: 700;
 }
 
@@ -483,34 +452,24 @@ body {
 
 .welcome-title {
   font-size: 2rem;
-
   font-weight: 800;
-
   color: var(--color-text-main);
-
   line-height: 1.2;
-
   letter-spacing: -0.03em;
 }
 
 .welcome-title .highlight-orange {
   color: var(--color-orange-primary);
-
   background: var(--color-orange-primary);
-
   -webkit-background-clip: text;
   background-clip: text;
-
   -webkit-text-fill-color: transparent;
 }
 
 .welcome-subtitle {
   font-size: 0.88rem;
-
-  color: var(--color-text-muted);
-
+  color: var(--color-text-paper-muted);
   font-weight: 500;
-
   margin-top: 4px;
 }
 
@@ -520,17 +479,13 @@ body {
 
 .login-form {
   display: flex;
-
   flex-direction: column;
-
   gap: 16px;
 }
 
 .form-group {
   position: relative;
-
   display: flex;
-
   flex-direction: column;
 }
 
@@ -540,83 +495,56 @@ body {
 
 .input-wrapper {
   display: flex;
-
   align-items: center;
-
   background: var(--color-input-bg);
-
-  border: 1.5px solid var(--color-input-border);
-
+  border: 1.5px solid var(--color-login-field-outline);
   border-radius: var(--radius-input);
-
   padding: 10px 16px;
-
   gap: 12px;
-
   transition: all var(--transition-fast);
 }
 
 .input-wrapper:focus-within {
-  background: var(--darkslate);
-
+  background: var(--color-input-bg);
   border-color: var(--color-input-focus);
 }
 
 .input-icon {
   font-size: 1.1rem;
-
-  color: var(--color-text-caption);
-
+  color: var(--mutedonlight);
   flex-shrink: 0;
-
   line-height: 1;
 }
 
 .input-content {
   display: flex;
-
   flex-direction: column;
-
   flex-grow: 1;
-
   min-width: 0;
 }
 
 .input-label {
   font-size: 0.7rem;
-
   font-weight: 600;
-
-  color: var(--color-text-caption);
-
+  color: var(--mutedonlight);
   line-height: 1.2;
-
   cursor: pointer;
 }
 
 .custom-input {
   border: none;
-
   background: transparent;
-
   outline: none;
-
   font-family: var(--font-family-main);
-
   font-size: 0.92rem;
-
   font-weight: 600;
-
   color: var(--color-input-text);
-
   width: 100%;
-
   margin-top: 2px;
 }
 
 .custom-input::placeholder {
-  color: var(--color-text-light);
-
+  color: var(--color-input-placeholder);
   font-weight: 500;
 }
 
@@ -630,9 +558,7 @@ body {
 
 .signup-name-row {
   display: grid;
-
   grid-template-columns: 1fr 1fr;
-
   gap: 10px;
 }
 
@@ -642,39 +568,24 @@ body {
 
 .role-selector {
   display: flex;
-
   gap: 6px;
-
   padding: 5px;
-
   background: var(--color-input-bg);
-
   border: 1.5px solid var(--color-input-border);
-
   border-radius: var(--radius-input);
 }
 
 .role-option {
   flex: 1;
-
   border: none;
-
   background: transparent;
-
-  color: var(--color-text-muted);
-
+  color: var(--mutedonlight);
   border-radius: 11px;
-
   padding: 7px 8px;
-
   font-family: var(--font-family-main);
-
   font-size: 0.75rem;
-
   font-weight: 700;
-
   cursor: pointer;
-
   transition: all var(--transition-fast);
 }
 
@@ -684,7 +595,6 @@ body {
 
 .role-option.active {
   color: var(--inkondark);
-
   background: var(--color-orange-primary);
 }
 
@@ -694,21 +604,15 @@ body {
 
 .field-error {
   font-size: 0.75rem;
-
   color: #dc2626;
-
   font-weight: 600;
-
   margin-top: 4px;
-
   margin-left: 6px;
-
   display: none;
 }
 
 .form-group.has-error .input-wrapper {
   border-color: #dc2626;
-
   background: rgb(220 38 38 / 0.15);
 }
 
@@ -722,35 +626,24 @@ body {
 
 .form-options {
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   margin-top: 2px;
-
   margin-bottom: 6px;
 }
 
 .custom-checkbox-container {
   display: inline-flex;
-
   align-items: center;
-
   gap: 10px;
-
   cursor: pointer;
-
   user-select: none;
-
   position: relative;
 }
 
 .custom-checkbox-container input[type="checkbox"] {
   position: absolute;
-
   opacity: 0;
-
   width: 0;
   height: 0;
 }
@@ -758,68 +651,49 @@ body {
 .checkmark {
   width: 20px;
   height: 20px;
-
   background: var(--color-input-bg);
-
   border: 1.5px solid var(--color-input-border);
-
   border-radius: 6px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   transition: all var(--transition-fast);
 }
 
 .check-icon {
   font-size: 0.7rem;
-
   color: var(--inkondark);
-
   opacity: 0;
-
   transform: scale(0.5);
-
   transition: all var(--transition-fast);
 }
 
 .custom-checkbox-container input:checked ~ .checkmark {
   background: var(--color-orange-primary);
-
   border-color: var(--color-orange-primary);
 }
 
 .custom-checkbox-container input:checked ~ .checkmark .check-icon {
   opacity: 1;
-
   transform: scale(1);
 }
 
 .checkbox-label {
   font-size: 0.82rem;
-
   font-weight: 600;
-
-  color: var(--color-text-muted);
+  color: var(--color-text-paper-muted);
 }
 
 .forgot-link {
   font-size: 0.82rem;
-
   font-weight: 700;
-
   color: var(--color-orange-primary);
-
   cursor: pointer;
-
   transition: color var(--transition-fast);
 }
 
 .forgot-link:hover {
   color: var(--accent);
-
   text-decoration: underline;
 }
 
@@ -829,36 +703,23 @@ body {
 
 .submit-btn {
   width: 100%;
-
   height: 54px;
-
   background: var(--accept);
-
   border: none;
-
   border-radius: var(--radius-input);
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 12px;
-
   cursor: pointer;
-
   transition: all var(--transition-normal);
-
   position: relative;
-
   overflow: hidden;
-
   margin-top: 8px;
 }
 
 .submit-btn:hover:not(:disabled) {
   background: #16a34a;
-
   transform: translateY(-2px);
 }
 
@@ -868,27 +729,19 @@ body {
 
 .submit-btn:disabled {
   opacity: 0.65;
-
   cursor: not-allowed;
 }
 
 .btn-arrow-badge {
   width: 34px;
   height: 34px;
-
   background: var(--color-board-darker);
-
   border-radius: 50%;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   color: var(--inkondark);
-
   font-size: 0.85rem;
-
   transition: transform var(--transition-fast);
 }
 
@@ -898,11 +751,8 @@ body {
 
 .btn-text {
   color: var(--inkondark);
-
   font-size: 1rem;
-
   font-weight: 800;
-
   letter-spacing: -0.01em;
 }
 
@@ -913,13 +763,9 @@ body {
 .loading-spinner {
   width: 17px;
   height: 17px;
-
   border: 2px solid rgb(var(--muted-rgb) / 0.4);
-
   border-top-color: var(--inkondark);
-
   border-radius: 50%;
-
   animation: login-spin 0.7s linear infinite;
 }
 
@@ -935,31 +781,22 @@ body {
 
 .divider {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
   margin: 20px 0;
 }
 
 .divider-line {
   flex-grow: 1;
-
   height: 1px;
-
   background: var(--color-input-border);
 }
 
 .divider-text {
   font-size: 0.75rem;
-
   font-weight: 600;
-
-  color: var(--color-text-caption);
-
+  color: var(--color-text-paper-muted);
   text-transform: lowercase;
-
   white-space: nowrap;
 }
 
@@ -969,55 +806,38 @@ body {
 
 .card-footer {
   text-align: center;
-
   margin-top: 22px;
 }
 
 .card-footer p {
   font-size: 0.84rem;
-
   font-weight: 600;
-
-  color: var(--color-text-muted);
+  color: var(--color-text-paper-muted);
 }
 
 .signup-link {
   color: var(--color-orange-primary);
-
   font-family: var(--font-family-main);
-
   font-size: inherit;
-
   font-weight: 700;
-
   background: transparent;
-
   border: none;
-
   text-decoration: none;
-
   margin-left: 4px;
-
   display: inline-flex;
-
   align-items: center;
-
   gap: 4px;
-
   cursor: pointer;
-
   transition: color var(--transition-fast);
 }
 
 .signup-link:hover {
   color: var(--accent);
-
   text-decoration: underline;
 }
 
 .small-arrow {
   font-size: 0.72rem;
-
   transition: transform var(--transition-fast);
 }
 
@@ -1027,13 +847,12 @@ body {
 
 /* ==========================================================================
    20. LEANING MODE SCALING
-   (Applies while the illustrated background is active — see section 24
-   for the breakpoint where this hands off to a plain card instead.)
+   (Base scaling with clamp() caps. On desktop, section 20b below removes
+   the caps so everything grows with the full-screen illustration.)
    ========================================================================== */
 
 .page-container.leaning-mode .card-header {
   margin-bottom: clamp(4px, 2.3cqw, 24px);
-
   gap: clamp(4px, 1.2cqw, 12px);
 }
 
@@ -1043,12 +862,7 @@ body {
 
 .page-container.leaning-mode .logo-icon-box {
   width: clamp(20px, 3.2cqw, 40px);
-
   height: clamp(20px, 3.2cqw, 40px);
-}
-
-.page-container.leaning-mode .logo-icon-box .q-letter {
-  font-size: clamp(11px, 1.8cqw, 22px);
 }
 
 .page-container.leaning-mode .brand-text .brand-name {
@@ -1089,7 +903,6 @@ body {
 
 .page-container.leaning-mode .input-wrapper {
   padding: clamp(2px, 0.6cqw, 8px) clamp(4px, 1.1cqw, 12px);
-
   gap: clamp(4px, 1cqw, 10px);
 }
 
@@ -1107,13 +920,11 @@ body {
 
 .page-container.leaning-mode .form-options {
   margin-top: 0;
-
   margin-bottom: clamp(1px, 0.4cqw, 4px);
 }
 
 .page-container.leaning-mode .checkmark {
   width: clamp(9px, 1.6cqw, 18px);
-
   height: clamp(9px, 1.6cqw, 18px);
 }
 
@@ -1124,17 +935,13 @@ body {
 
 .page-container.leaning-mode .submit-btn {
   height: clamp(18px, 3.6cqw, 44px);
-
   margin-top: clamp(1px, 0.3cqw, 4px);
-
   gap: clamp(4px, 1cqw, 10px);
 }
 
 .page-container.leaning-mode .btn-arrow-badge {
   width: clamp(13px, 2.6cqw, 32px);
-
   height: clamp(13px, 2.6cqw, 32px);
-
   font-size: clamp(6px, 1.2cqw, 15px);
 }
 
@@ -1144,7 +951,6 @@ body {
 
 .page-container.leaning-mode .divider {
   margin: clamp(2px, 1.6cqw, 18px) 0;
-
   gap: clamp(3px, 1cqw, 10px);
 }
 
@@ -1161,44 +967,249 @@ body {
 }
 
 /* ==========================================================================
+   20b. FULL-SCREEN SCALING (desktop only)
+   Everything is sized in cqw (1% of the stage width), so the form scales
+   together with the artwork and always fits inside the white board.
+   ========================================================================== */
+
+@media (min-width: 861px) {
+  .page-container.leaning-mode .paper-sheet {
+    padding: 0.4cqw 1.2cqw;
+  }
+
+  .page-container.leaning-mode .card-header {
+    margin-bottom: 1.6cqw;
+    gap: 0.8cqw;
+  }
+
+  /* FIX: logo area is the flexible part; badge never overlaps the name */
+  .page-container.leaning-mode .brand-logo {
+    gap: 0.8cqw;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .page-container.leaning-mode .brand-text {
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .page-container.leaning-mode .logo-icon-box {
+    width: 2.6cqw;
+    height: 2.6cqw;
+    border-radius: 0.6cqw;
+    flex-shrink: 0;
+  }
+
+  .page-container.leaning-mode .brand-text .brand-name {
+    font-size: 1cqw;
+    line-height: 1.15;
+  }
+
+  .page-container.leaning-mode .brand-text .brand-subtext {
+    font-size: 0.7cqw;
+    letter-spacing: 0.03em;
+  }
+
+  .page-container.leaning-mode .classroom-badge {
+    padding: 0.25cqw 0.65cqw;
+    gap: 0.4cqw;
+    flex-shrink: 0;
+  }
+
+  .page-container.leaning-mode .badge-icon {
+    font-size: 0.8cqw;
+  }
+
+  .page-container.leaning-mode .badge-text .small-text {
+    font-size: 0.65cqw;
+  }
+
+  .page-container.leaning-mode .badge-text .strong-text {
+    font-size: 0.8cqw;
+  }
+
+  .page-container.leaning-mode .headline-section {
+    margin-bottom: 1.1cqw;
+  }
+
+  .page-container.leaning-mode .welcome-title {
+    font-size: 1.75cqw;
+  }
+
+  .page-container.leaning-mode .welcome-subtitle {
+    font-size: 0.95cqw;
+    margin-top: 0.2cqw;
+  }
+
+  .page-container.leaning-mode .login-form {
+    gap: 0.6cqw;
+  }
+
+  .page-container.leaning-mode .input-wrapper {
+    padding: 0.55cqw 1cqw;
+    gap: 0.9cqw;
+    border-radius: 0.6cqw;
+  }
+
+  .page-container.leaning-mode .input-icon {
+    font-size: 1.4cqw;
+  }
+
+  .page-container.leaning-mode .input-label {
+    font-size: 0.85cqw;
+  }
+
+  .page-container.leaning-mode .custom-input {
+    font-size: 1.15cqw;
+  }
+
+  .page-container.leaning-mode .form-options {
+    margin-top: 0;
+    margin-bottom: 0.3cqw;
+  }
+
+  .page-container.leaning-mode .custom-checkbox-container {
+    gap: 0.7cqw;
+  }
+
+  .page-container.leaning-mode .checkmark {
+    width: 1.4cqw;
+    height: 1.4cqw;
+    border-radius: 0.35cqw;
+  }
+
+  .page-container.leaning-mode .check-icon {
+    font-size: 0.8cqw;
+  }
+
+  .page-container.leaning-mode .checkbox-label,
+  .page-container.leaning-mode .forgot-link {
+    font-size: 1cqw;
+  }
+
+  .page-container.leaning-mode .submit-btn {
+    height: 3cqw;
+    margin-top: 0.3cqw;
+    gap: 0.9cqw;
+    border-radius: 0.6cqw;
+  }
+
+  .page-container.leaning-mode .btn-arrow-badge {
+    width: 2.2cqw;
+    height: 2.2cqw;
+    font-size: 1cqw;
+  }
+
+  .page-container.leaning-mode .btn-text {
+    font-size: 1.2cqw;
+  }
+
+  .page-container.leaning-mode .divider {
+    margin: 1cqw 0;
+    gap: 0.9cqw;
+  }
+
+  .page-container.leaning-mode .divider-text {
+    font-size: 1cqw;
+  }
+
+  .page-container.leaning-mode .card-footer {
+    margin-top: 0.3cqw;
+  }
+
+  .page-container.leaning-mode .card-footer p {
+    font-size: 1cqw;
+  }
+
+  .page-container.leaning-mode .role-selector {
+    padding: 0.3cqw;
+    gap: 0.4cqw;
+  }
+
+  .page-container.leaning-mode .role-option {
+    font-size: 0.95cqw;
+    padding: 0.4cqw 0.5cqw;
+  }
+
+  .page-container.leaning-mode .field-error {
+    font-size: 0.8cqw;
+  }
+
+  .page-container.leaning-mode .signup-name-row {
+    gap: 0.6cqw;
+  }
+}
+
+/* ==========================================================================
+   20c. PASSWORD VISIBILITY TOGGLE (eye icon)
+   ========================================================================== */
+
+.password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--mutedonlight);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.password-toggle svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.password-toggle:hover {
+  color: var(--color-input-focus);
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid var(--color-input-focus);
+  outline-offset: 2px;
+}
+
+/* Desktop full-screen: scale with the artwork like everything else */
+@media (min-width: 861px) {
+  .page-container.leaning-mode .password-toggle {
+    width: 1.4cqw;
+    height: 1.4cqw;
+    border-radius: 0.35cqw;
+  }
+}
+
+/* ==========================================================================
    21. STANDING MODE FALLBACK
    ========================================================================== */
 
 .page-container.standing-mode .avatar-backdrop {
   position: absolute;
-
   top: 50%;
   left: 20px;
-
   transform: translateY(-50%);
-
   width: 440px;
   height: 440px;
-
   background: var(--color-backdrop-circle);
-
   border-radius: 50%;
-
   z-index: 1;
 }
 
 .avatar-container {
   position: absolute;
-
   left: -20px;
-
   top: 50%;
-
   transform: translateY(-50%);
-
   z-index: 3;
-
   width: 420px;
-
   height: auto;
-
   pointer-events: none;
-
   transition:
     transform var(--transition-bounce),
     opacity var(--transition-normal);
@@ -1206,9 +1217,7 @@ body {
 
 .avatar-img {
   width: 100%;
-
   height: auto;
-
   display: block;
 }
 
@@ -1225,25 +1234,21 @@ body {
   .avatar-backdrop {
     width: 380px;
     height: 380px;
-
     left: 10px;
   }
 
   .avatar-container {
     width: 360px;
-
     left: -30px;
   }
 
   .decor-lightbulb {
     width: 85px;
-
     left: 2%;
   }
 
   .decor-books {
     width: 100px;
-
     right: 2%;
   }
 }
@@ -1255,7 +1260,6 @@ body {
 
   .stage-wrapper {
     flex-direction: column;
-
     gap: 20px;
   }
 
@@ -1265,43 +1269,30 @@ body {
 
   .avatar-container {
     position: relative;
-
     left: 0;
-
     top: 0;
-
     transform: none;
-
     width: 240px;
-
     margin: 0 auto -40px auto;
-
     z-index: 4;
   }
 
   .clipboard-card {
     margin-left: 0;
-
     width: 100%;
-
     max-width: 480px;
   }
 
   .paper-sheet {
     width: 100%;
-
     padding: 28px 24px;
   }
 
   .brand-tagline {
     position: relative;
-
     bottom: 0;
-
     left: 0;
-
     margin-top: 40px;
-
     text-align: center;
   }
 
@@ -1321,9 +1312,7 @@ body {
 
   .card-header {
     flex-direction: column;
-
     align-items: flex-start;
-
     gap: 12px;
   }
 
@@ -1357,14 +1346,11 @@ body {
    ========================================================================== */
 
 /*
-   The illustrated background keeps a fixed 1024:576 (landscape) aspect
-   ratio. Below ~860px wide there isn't enough vertical room left inside
-   that ratio to comfortably fit the form (especially the signup fields),
-   so on smaller screens we drop the background art entirely and render
-   the form as a plain, normally-flowing card instead. Every rule here
-   has the same specificity as its section 20 / section 7 counterpart, so
-   being declared later in the file is what makes it win — keep this as
-   the last section in the file.
+   Below ~860px wide the illustrated background is dropped and the form is
+   rendered as a plain, normally-flowing card. Every rule here has the same
+   specificity as its section 20 / section 7 counterpart, so being declared
+   later in the file is what makes it win — keep this as the last section
+   in the file.
 */
 
 @media (max-width: 860px) {
@@ -1373,45 +1359,43 @@ body {
     padding-bottom: 32px;
   }
 
+  /* Cream background on mobile, same as desktop */
+  .page-container.leaning-mode {
+    background: var(--login-bg);
+  }
+
   .page-container.leaning-mode .stage-wrapper {
     max-width: 460px;
-
     width: 100%;
-
     aspect-ratio: unset;
-
     background: none;
-
     filter: none;
-
     container-type: normal;
   }
 
   .page-container.leaning-mode .clipboard-card {
     position: static;
-
     width: 100%;
     height: auto;
-
     left: auto;
     top: auto;
   }
 
   .page-container.leaning-mode .clipboard-board {
     background: var(--color-paper-bg);
-
     border-radius: var(--radius-card-inner);
-
     padding: 6px;
-
     width: 100%;
     height: auto;
+
+    /* Visible edge on the cream background (mobile) */
+    border: 3px solid var(--logininputborder);
+    box-shadow: 0 6px 0 var(--logininputborder);
   }
 
   .page-container.leaning-mode .paper-sheet {
     width: 100%;
     height: auto;
-
     padding: 30px 22px;
   }
 
@@ -1420,7 +1404,6 @@ body {
 
   .page-container.leaning-mode .card-header {
     margin-bottom: 20px;
-
     gap: 10px;
   }
 
@@ -1430,12 +1413,7 @@ body {
 
   .page-container.leaning-mode .logo-icon-box {
     width: 42px;
-
     height: 42px;
-  }
-
-  .page-container.leaning-mode .logo-icon-box .q-letter {
-    font-size: 1.55rem;
   }
 
   .page-container.leaning-mode .brand-text .brand-name {
@@ -1476,7 +1454,6 @@ body {
 
   .page-container.leaning-mode .input-wrapper {
     padding: 10px 14px;
-
     gap: 10px;
   }
 
@@ -1499,7 +1476,6 @@ body {
 
   .page-container.leaning-mode .checkmark {
     width: 18px;
-
     height: 18px;
   }
 
@@ -1510,17 +1486,13 @@ body {
 
   .page-container.leaning-mode .submit-btn {
     height: 50px;
-
     margin-top: 6px;
-
     gap: 10px;
   }
 
   .page-container.leaning-mode .btn-arrow-badge {
     width: 30px;
-
     height: 30px;
-
     font-size: 0.8rem;
   }
 
@@ -1542,8 +1514,13 @@ body {
 
   .page-container.leaning-mode .role-option {
     font-size: 0.7rem;
-
     padding: 7px 6px;
+  }
+
+  /* Eye icon: normal fixed size on the stacked mobile card */
+  .page-container.leaning-mode .password-toggle {
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -1567,7 +1544,6 @@ body {
 @media (max-height: 480px) and (orientation: landscape) {
   .page-container {
     padding-top: 16px;
-
     padding-bottom: 16px;
   }
 

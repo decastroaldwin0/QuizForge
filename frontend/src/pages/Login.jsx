@@ -2,9 +2,50 @@ import React, { useState, useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { AuthContext } from "../components/AuthProvider";
+import quizForgeLogo from "../assets/quizforge-logo.png";
 import "./Login.css";
 
 const backendHost = import.meta.env.VITE_BACKEND_HOST;
+
+/* =====================================================
+   EYE ICONS (inline SVG, no extra packages needed)
+   ===================================================== */
+
+function EyeIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+      <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  );
+}
 
 export default function LogInComponent() {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,6 +56,9 @@ export default function LogInComponent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [role, setRole] = useState("student");
   const [loading, setLoading] = useState(false);
@@ -97,6 +141,8 @@ export default function LogInComponent() {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
+        setShowPassword(false);
+        setShowConfirmPassword(false);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -196,12 +242,14 @@ export default function LogInComponent() {
               <header className="card-header">
                 <div className="brand-logo">
                   <div className="logo-icon-box">
-                    <span className="q-letter">Q</span>
+                    <img src={quizForgeLogo} alt="QuizForge logo" />
                   </div>
 
                   <div className="brand-text">
                     <h2 className="brand-name">
-                      Ilmari<span className="highlight">Gen</span>
+                      Computer Communication
+                      <br />
+                      Development Institute
                     </h2>
 
                     <p className="brand-subtext">Learn • Practice • Achieve</p>
@@ -364,7 +412,7 @@ export default function LogInComponent() {
 
                     <div className="input-content">
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="passwordInput"
                         name="password"
                         className="custom-input"
@@ -372,9 +420,23 @@ export default function LogInComponent() {
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                         required
-                        autoComplete="current-password"
+                        autoComplete={
+                          isLogin ? "current-password" : "new-password"
+                        }
                       />
                     </div>
+
+                    <button
+                      type="button"
+                      className="password-toggle"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      aria-pressed={showPassword}
+                    >
+                      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
                   </div>
 
                   <span className="field-error" id="passwordError" />
@@ -398,7 +460,7 @@ export default function LogInComponent() {
                         </label>
 
                         <input
-                          type="password"
+                          type={showConfirmPassword ? "text" : "password"}
                           id="confirmPasswordInput"
                           name="confirmPassword"
                           className="custom-input"
@@ -406,8 +468,23 @@ export default function LogInComponent() {
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="••••••••"
                           required
+                          autoComplete="new-password"
                         />
                       </div>
+
+                      <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        aria-label={
+                          showConfirmPassword
+                            ? "Hide confirm password"
+                            : "Show confirm password"
+                        }
+                        aria-pressed={showConfirmPassword}
+                      >
+                        {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      </button>
                     </div>
                   </div>
                 )}
